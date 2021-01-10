@@ -451,74 +451,74 @@ impl pallet_scheduler::Config for Runtime {
 	type WeightInfo = pallet_scheduler::weights::SubstrateWeight<Runtime>;
 }
 
-// parameter_types! {
-// 	pub const LaunchPeriod: BlockNumber = 2 * 24 * 60 * MINUTES;
-// 	pub const VotingPeriod: BlockNumber = 4 * 24 * 60 * MINUTES;
-// 	pub const FastTrackVotingPeriod: BlockNumber = 2 * 24 * 60 * MINUTES;
-// 	pub const MinimumDeposit: Balance = 100 * DOLLARS;
-// 	pub const InstantAllowed: bool = false;
-// 	pub const EnactmentPeriod: BlockNumber = 1 * 24 * 60 * MINUTES;
-// 	pub const CooloffPeriod: BlockNumber = 7 * 24 * 60 * MINUTES;
-// 	pub const PreimageByteDeposit: Balance = 1 * CENTS;
-// 	pub const MaxVotes: u32 = 100;
-// 	pub const MaxProposals: u32 = 100;
-// }
+parameter_types! {
+	pub const LaunchPeriod: BlockNumber = 2 * 24 * 60 * MINUTES;
+	pub const VotingPeriod: BlockNumber = 4 * 24 * 60 * MINUTES;
+	pub const FastTrackVotingPeriod: BlockNumber = 2 * 24 * 60 * MINUTES;
+	pub const MinimumDeposit: Balance = 100 * DOLLARS;
+	pub const InstantAllowed: bool = false;
+	pub const EnactmentPeriod: BlockNumber = 1 * 24 * 60 * MINUTES;
+	pub const CooloffPeriod: BlockNumber = 7 * 24 * 60 * MINUTES;
+	pub const PreimageByteDeposit: Balance = 1 * CENTS;
+	pub const MaxVotes: u32 = 100;
+	pub const MaxProposals: u32 = 100;
+}
 
-// impl pallet_democracy::Config for Runtime {
-// 	type Proposal = Call;
-// 	type Event = Event;
-// 	type Currency = Balances;
-// 	type EnactmentPeriod = EnactmentPeriod;
-// 	type LaunchPeriod = LaunchPeriod;
-// 	type VotingPeriod = VotingPeriod;
-// 	type MinimumDeposit = MinimumDeposit;
-// 	/// A straight majority of the council can decide what their next motion is.
-// 	type ExternalOrigin = pallet_collective::EnsureProportionAtLeast<_1, _2, AccountId, CouncilCollective>;
-// 	/// A 60% super-majority can have the next scheduled referendum be a straight majority-carries vote.
-// 	type ExternalMajorityOrigin = frame_system::EnsureOneOf<AccountId,
-// 		pallet_collective::EnsureProportionAtLeast<_3, _5, AccountId, CouncilCollective>,
-// 		frame_system::EnsureRoot<AccountId>,
-// 	>;
-// 	/// Three fourths of the committee can have an ExternalMajority/ExternalDefault vote
-// 	/// be tabled immediately and with a shorter voting/enactment period.
-// 	type FastTrackOrigin = frame_system::EnsureOneOf<AccountId,
-// 		pallet_collective::EnsureProportionAtLeast<_3, _4, AccountId, CouncilCollective>,
-// 		frame_system::EnsureRoot<AccountId>,
-// 	>;
-// 	type InstantOrigin = frame_system::EnsureNever<AccountId>;
-// 	type InstantAllowed = InstantAllowed;
-// 	type FastTrackVotingPeriod = FastTrackVotingPeriod;
-// 	/// A unanimous council can have the next scheduled referendum be a straight default-carries
-// 	/// (NTB) vote.
-// 	type ExternalDefaultOrigin = frame_system::EnsureOneOf<AccountId,
-// 		pallet_collective::EnsureProportionAtLeast<_1, _1, AccountId, CouncilCollective>,
-// 		frame_system::EnsureRoot<AccountId>,
-// 	>;
-// 	// To cancel a proposal which has been passed, 2/3 of the council must agree to it.
-// 	type CancellationOrigin = frame_system::EnsureOneOf<AccountId,
-// 		pallet_collective::EnsureProportionAtLeast<_2, _3, AccountId, CouncilCollective>,
-// 		frame_system::EnsureRoot<AccountId>,
-// 	>;
-// 	// To cancel a proposal before it has been passed, the technical committee must be unanimous or
-// 	// Root must agree.
-// 	type CancelProposalOrigin = EnsureOneOf<
-// 		AccountId,
-// 		EnsureRoot<AccountId>,
-// 		pallet_collective::EnsureProportionAtLeast<_1, _1, AccountId, CouncilCollective>,
-// 	>;
-// 	type BlacklistOrigin = EnsureRoot<AccountId>;
-// 	// No vetoing
-// 	type VetoOrigin = frame_system::EnsureNever<AccountId>;
-// 	type CooloffPeriod = CooloffPeriod;
-// 	type PreimageByteDeposit = PreimageByteDeposit;
-// 	type OperationalPreimageOrigin = pallet_collective::EnsureMember<AccountId, CouncilCollective>;
-// 	type Slash = Treasury;
-// 	type Scheduler = Scheduler;
-// 	type PalletsOrigin = OriginCaller;
-// 	type MaxVotes = MaxVotes;
-// 	type WeightInfo = pallet_democracy::weights::SubstrateWeight<Runtime>;
-// 	type MaxProposals = MaxProposals;
-// }
+impl pallet_democracy::Config for Runtime {
+	type Proposal = Call;
+	type Event = Event;
+	type Currency = Balances;
+	type EnactmentPeriod = EnactmentPeriod;
+	type LaunchPeriod = LaunchPeriod;
+	type VotingPeriod = VotingPeriod;
+	type MinimumDeposit = MinimumDeposit;
+	/// A straight majority of the council can decide what their next motion is.
+	type ExternalOrigin = pallet_collective::EnsureProportionAtLeast<_1, _2, AccountId, CouncilCollective>;
+	/// A 60% super-majority can have the next scheduled referendum be a straight majority-carries vote.
+	type ExternalMajorityOrigin = frame_system::EnsureOneOf<AccountId,
+		pallet_collective::EnsureProportionAtLeast<_3, _5, AccountId, CouncilCollective>,
+		frame_system::EnsureRoot<AccountId>,
+	>;
+	/// Three fourths of the committee can have an ExternalMajority/ExternalDefault vote
+	/// be tabled immediately and with a shorter voting/enactment period.
+	type FastTrackOrigin = frame_system::EnsureOneOf<AccountId,
+		pallet_collective::EnsureProportionAtLeast<_3, _4, AccountId, CouncilCollective>,
+		frame_system::EnsureRoot<AccountId>,
+	>;
+	type InstantOrigin = frame_system::EnsureNever<AccountId>;
+	type InstantAllowed = InstantAllowed;
+	type FastTrackVotingPeriod = FastTrackVotingPeriod;
+	/// A unanimous council can have the next scheduled referendum be a straight default-carries
+	/// (NTB) vote.
+	type ExternalDefaultOrigin = frame_system::EnsureOneOf<AccountId,
+		pallet_collective::EnsureProportionAtLeast<_1, _1, AccountId, CouncilCollective>,
+		frame_system::EnsureRoot<AccountId>,
+	>;
+	// To cancel a proposal which has been passed, 2/3 of the council must agree to it.
+	type CancellationOrigin = frame_system::EnsureOneOf<AccountId,
+		pallet_collective::EnsureProportionAtLeast<_2, _3, AccountId, CouncilCollective>,
+		frame_system::EnsureRoot<AccountId>,
+	>;
+	// To cancel a proposal before it has been passed, the technical committee must be unanimous or
+	// Root must agree.
+	type CancelProposalOrigin = EnsureOneOf<
+		AccountId,
+		EnsureRoot<AccountId>,
+		pallet_collective::EnsureProportionAtLeast<_1, _1, AccountId, CouncilCollective>,
+	>;
+	type BlacklistOrigin = EnsureRoot<AccountId>;
+	// No vetoing
+	type VetoOrigin = frame_system::EnsureNever<AccountId>;
+	type CooloffPeriod = CooloffPeriod;
+	type PreimageByteDeposit = PreimageByteDeposit;
+	type OperationalPreimageOrigin = pallet_collective::EnsureMember<AccountId, CouncilCollective>;
+	type Slash = Treasury;
+	type Scheduler = Scheduler;
+	type PalletsOrigin = OriginCaller;
+	type MaxVotes = MaxVotes;
+	type WeightInfo = pallet_democracy::weights::SubstrateWeight<Runtime>;
+	type MaxProposals = MaxProposals;
+}
 
 parameter_types! {
 	pub const CouncilMotionDuration: BlockNumber = 14 * DAYS;
@@ -710,10 +710,17 @@ impl pallet_recovery::Config for Runtime {
 // 	type WeightInfo = pallet_contracts::weights::SubstrateWeight<Runtime>;
 // }
 
-// impl edge_treasury_reward::Config for Runtime {
-// 	type Event = Event;
-// 	type Currency = Balances;
-// }
+parameter_types! {
+	pub const MinimumTreasuryPct: Percent = Percent::from_percent(50);
+	pub const MaximumRecipientPct: Percent = Percent::from_percent(10);
+}
+
+impl edge_treasury_reward::Config for Runtime {
+	type Event = Event;
+	type Currency = Balances;
+	type MinimumTreasuryPct = MinimumTreasuryPct;
+	type MaximumRecipientPct = MaximumRecipientPct;
+}
 
 parameter_types! {
 	pub const AssetDepositBase: u64 = 1;
@@ -764,9 +771,12 @@ construct_runtime! {
 		Multisig: pallet_multisig::{Module, Call, Storage, Event<T>},
 
 		Treasury: pallet_treasury::{Module, Call, Storage, Config, Event<T>},
+		TreasuryReward: edge_treasury_reward::{Module, Call, Storage, Config<T>, Event<T>},
 		Bounties: pallet_bounties::{Module, Call, Storage, Event<T>},
 		Tips: pallet_tips::{Module, Call, Storage, Event<T>},
 		Assets: edge_assets::{Module, Call, Storage, Event<T>},
+
+		Democracy: pallet_democracy::{Module, Call, Storage, Config, Event<T>},
 	}
 }
 

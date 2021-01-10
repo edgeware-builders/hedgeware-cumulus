@@ -6,6 +6,8 @@ members = [
 	"parachain-upgrade",
 	"primitives",
 	"rococo-parachains/",
+	"rococo-parachains/modules/edge-assets",
+	"rococo-parachains/modules/edge-treasury-reward",
 	"rococo-parachains/pallets/parachain-info",
 	"rococo-parachains/primitives",
 	"rococo-parachains/runtime",
