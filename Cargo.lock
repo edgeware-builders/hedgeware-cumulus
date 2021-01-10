@@ -1268,6 +1268,7 @@ dependencies = [
  "pallet-elections-phragmen",
  "pallet-identity",
  "pallet-multisig",
+ "pallet-proxy",
  "pallet-randomness-collective-flip",
  "pallet-recovery",
  "pallet-scheduler",

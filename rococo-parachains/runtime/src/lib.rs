@@ -22,6 +22,8 @@
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
+use codec::{Encode, Decode};
+use frame_support::traits::InstanceFilter;
 use pallet_contracts::WeightInfo;
 use frame_system::EnsureOneOf;
 use sp_runtime::Percent;
@@ -43,7 +45,7 @@ use sp_version::RuntimeVersion;
 
 // A few exports that help ease life for downstream crates.
 pub use frame_support::{
-	construct_runtime, parameter_types,
+	construct_runtime, parameter_types, RuntimeDebug,
 	traits::{Currency, FindAuthor, Imbalance, KeyOwnerProofSystem, OnUnbalanced, Randomness, LockIdentifier, U128CurrencyToVote},
 	weights::{
 		constants::{BlockExecutionWeight, ExtrinsicBaseWeight, RocksDbWeight, WEIGHT_PER_SECOND},
@@ -339,102 +341,81 @@ impl pallet_multisig::Config for Runtime {
 	type WeightInfo = pallet_multisig::weights::SubstrateWeight<Runtime>;
 }
 
-// parameter_types! {
-// 	// One storage item; key size 32, value size 8; .
-// 	pub const ProxyDepositBase: Balance = deposit(1, 8);
-// 	// Additional storage item size of 33 bytes.
-// 	pub const ProxyDepositFactor: Balance = deposit(0, 33);
-// 	pub const MaxProxies: u16 = 32;
-// 	pub const AnnouncementDepositBase: Balance = deposit(1, 8);
-// 	pub const AnnouncementDepositFactor: Balance = deposit(0, 66);
-// 	pub const MaxPending: u16 = 32;
-// }
+parameter_types! {
+	// One storage item; key size 32, value size 8; .
+	pub const ProxyDepositBase: Balance = deposit(1, 8);
+	// Additional storage item size of 33 bytes.
+	pub const ProxyDepositFactor: Balance = deposit(0, 33);
+	pub const MaxProxies: u16 = 32;
+	pub const AnnouncementDepositBase: Balance = deposit(1, 8);
+	pub const AnnouncementDepositFactor: Balance = deposit(0, 66);
+	pub const MaxPending: u16 = 32;
+}
 
-// /// The type used to represent the kinds of proxying allowed.
-// #[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Encode, Decode, RuntimeDebug)]
-// pub enum ProxyType {
-// 	Any = 0,
-// 	NonTransfer = 1,
-// 	Governance = 2,
-// 	Staking = 3,
-// 	// Skip 4 as it is now removed (was SudoBalances)
-// 	IdentityJudgement = 5,
-// }
+/// The type used to represent the kinds of proxying allowed.
+#[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Encode, Decode, RuntimeDebug)]
+pub enum ProxyType {
+	Any,
+	NonTransfer,
+	Governance,
+	IdentityJudgement,
+}
 
-// impl Default for ProxyType { fn default() -> Self { Self::Any } }
-// impl InstanceFilter<Call> for ProxyType {
-// 	fn filter(&self, c: &Call) -> bool {
-// 		match self {
-// 			ProxyType::Any => true,
-// 			ProxyType::NonTransfer => matches!(c,
-// 				Call::System(..) |
-// 				Call::Scheduler(..) |
-// 				Call::Timestamp(..) |
-// 				Call::Indices(pallet_indices::Call::claim(..)) |
-// 				Call::Indices(pallet_indices::Call::free(..)) |
-// 				Call::Indices(pallet_indices::Call::freeze(..)) |
-// 				// Specifically omitting Indices `transfer`, `force_transfer`
-// 				// Specifically omitting the entire Balances pallet
-// 				Call::Authorship(..) |
-// 				Call::Staking(..) |
-// 				Call::Offences(..) |
-// 				Call::Session(..) |
-// 				Call::Grandpa(..) |
-// 				Call::ImOnline(..) |
-// 				Call::AuthorityDiscovery(..) |
-// 				Call::Democracy(..) |
-// 				Call::Council(..) |
-// 				Call::Treasury(..) |
-// 				Call::Vesting(pallet_vesting::Call::vest(..)) |
-// 				Call::Vesting(pallet_vesting::Call::vest_other(..)) |
-// 				// Specifically omitting Vesting `vested_transfer`, and `force_vested_transfer`
-// 				Call::Utility(..) |
-// 				Call::Identity(..) |
-// 				Call::Proxy(..) |
-// 				Call::Multisig(..)
-// 			),
-// 			ProxyType::Governance => matches!(c,
-// 				Call::Democracy(..) |
-// 				Call::Council(..) |
-// 				Call::Treasury(..) |
-// 				Call::Utility(..)
-// 			),
-// 			ProxyType::Staking => matches!(c,
-// 				Call::Staking(..) |
-// 				Call::Session(..) |
-// 				Call::Utility(..)
-// 			),
-// 			ProxyType::IdentityJudgement => matches!(c,
-// 				Call::Identity(pallet_identity::Call::provide_judgement(..)) |
-// 				Call::Utility(..)
-// 			)
-// 		}
-// 	}
-// 	fn is_superset(&self, o: &Self) -> bool {
-// 		match (self, o) {
-// 			(x, y) if x == y => true,
-// 			(ProxyType::Any, _) => true,
-// 			(_, ProxyType::Any) => false,
-// 			(ProxyType::NonTransfer, _) => true,
-// 			_ => false,
-// 		}
-// 	}
-// }
+impl Default for ProxyType { fn default() -> Self { Self::Any } }
+impl InstanceFilter<Call> for ProxyType {
+	fn filter(&self, c: &Call) -> bool {
+		match self {
+			ProxyType::Any => true,
+			ProxyType::NonTransfer => matches!(c,
+				Call::System(..) |
+				Call::Scheduler(..) |
+				Call::Timestamp(..) |
+				Call::Democracy(..) |
+				Call::Council(..) |
+				Call::Treasury(..) |
+				// Specifically omitting Vesting `vested_transfer`, and `force_vested_transfer`
+				Call::Utility(..) |
+				Call::Identity(..) |
+				Call::Proxy(..) |
+				Call::Multisig(..)
+			),
+			ProxyType::Governance => matches!(c,
+				Call::Democracy(..) |
+				Call::Council(..) |
+				Call::Treasury(..) |
+				Call::Utility(..)
+			),
+			ProxyType::IdentityJudgement => matches!(c,
+				Call::Identity(pallet_identity::Call::provide_judgement(..)) |
+				Call::Utility(..)
+			)
+		}
+	}
+	fn is_superset(&self, o: &Self) -> bool {
+		match (self, o) {
+			(x, y) if x == y => true,
+			(ProxyType::Any, _) => true,
+			(_, ProxyType::Any) => false,
+			(ProxyType::NonTransfer, _) => true,
+			_ => false,
+		}
+	}
+}
 
-// impl pallet_proxy::Config for Runtime {
-// 	type Event = Event;
-// 	type Call = Call;
-// 	type Currency = Balances;
-// 	type ProxyType = ProxyType;
-// 	type ProxyDepositBase = ProxyDepositBase;
-// 	type ProxyDepositFactor = ProxyDepositFactor;
-// 	type MaxProxies = MaxProxies;
-// 	type WeightInfo = pallet_proxy::weights::SubstrateWeight<Runtime>;
-// 	type MaxPending = MaxPending;
-// 	type CallHasher = BlakeTwo256;
-// 	type AnnouncementDepositBase = AnnouncementDepositBase;
-// 	type AnnouncementDepositFactor = AnnouncementDepositFactor;
-// }
+impl pallet_proxy::Config for Runtime {
+	type Event = Event;
+	type Call = Call;
+	type Currency = Balances;
+	type ProxyType = ProxyType;
+	type ProxyDepositBase = ProxyDepositBase;
+	type ProxyDepositFactor = ProxyDepositFactor;
+	type MaxProxies = MaxProxies;
+	type WeightInfo = pallet_proxy::weights::SubstrateWeight<Runtime>;
+	type MaxPending = MaxPending;
+	type CallHasher = BlakeTwo256;
+	type AnnouncementDepositBase = AnnouncementDepositBase;
+	type AnnouncementDepositFactor = AnnouncementDepositFactor;
+}
 
 parameter_types! {
 	pub MaximumSchedulerWeight: Weight = Perbill::from_percent(80) * RuntimeBlockWeights::get().max_block;
@@ -787,6 +768,7 @@ construct_runtime! {
 		Recovery: pallet_recovery::{Module, Call, Storage, Event<T>},
 		Scheduler: pallet_scheduler::{Module, Call, Storage, Event<T>},
 		Multisig: pallet_multisig::{Module, Call, Storage, Event<T>},
+		Proxy: pallet_proxy::{Module, Call, Storage, Event<T>},
 
 		Treasury: pallet_treasury::{Module, Call, Storage, Config, Event<T>},
 		TreasuryReward: edge_treasury_reward::{Module, Call, Storage, Config<T>, Event<T>},

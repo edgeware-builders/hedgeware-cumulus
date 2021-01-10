@@ -38,7 +38,7 @@ pallet-democracy = { git = "https://github.com/paritytech/substrate", default-fe
 pallet-elections-phragmen = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "master" }
 pallet-identity = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "master" }
 pallet-multisig = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "master" }
-# pallet-proxy = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "master" }
+pallet-proxy = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "master" }
 pallet-randomness-collective-flip = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "master" }
 pallet-recovery = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "master" }
 pallet-scheduler = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "master" }
@@ -105,7 +105,7 @@ std = [
 	"pallet-elections-phragmen/std",
 	"pallet-identity/std",
 	"pallet-multisig/std",
-#	"pallet-proxy/std",
+	"pallet-proxy/std",
 	"pallet-randomness-collective-flip/std",
 	"pallet-recovery/std",
 	"pallet-scheduler/std",
