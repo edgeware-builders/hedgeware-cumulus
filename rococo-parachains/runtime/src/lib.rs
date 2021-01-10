@@ -22,6 +22,7 @@
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
+use static_assertions::const_assert;
 use rococo_parachain_primitives::*;
 use sp_api::impl_runtime_apis;
 use sp_core::OpaqueMetadata;
@@ -39,7 +40,7 @@ use sp_version::RuntimeVersion;
 // A few exports that help ease life for downstream crates.
 pub use frame_support::{
 	construct_runtime, parameter_types,
-	traits::Randomness,
+	traits::{Currency, FindAuthor, Imbalance, KeyOwnerProofSystem, OnUnbalanced, Randomness, LockIdentifier, U128CurrencyToVote},
 	weights::{
 		constants::{BlockExecutionWeight, ExtrinsicBaseWeight, RocksDbWeight, WEIGHT_PER_SECOND},
 		DispatchClass, IdentityFee, Weight,
@@ -516,54 +517,54 @@ impl pallet_scheduler::Config for Runtime {
 // 	type MaxProposals = MaxProposals;
 // }
 
-// parameter_types! {
-// 	pub const CouncilMotionDuration: BlockNumber = 14 * DAYS;
-// 	pub const CouncilMaxProposals: u32 = 100;
-// }
+parameter_types! {
+	pub const CouncilMotionDuration: BlockNumber = 14 * DAYS;
+	pub const CouncilMaxProposals: u32 = 100;
+}
 
-// type CouncilCollective = pallet_collective::Instance1;
-// impl pallet_collective::Config<CouncilCollective> for Runtime {
-// 	type Origin = Origin;
-// 	type Proposal = Call;
-// 	type Event = Event;
-// 	type MotionDuration = CouncilMotionDuration;
-// 	type MaxProposals = CouncilMaxProposals;
-// 	type MaxMembers = CouncilMaxMembers;
-// 	type DefaultVote = pallet_collective::PrimeDefaultVote;
-// 	type WeightInfo = pallet_collective::weights::SubstrateWeight<Runtime>;
-// }
+type CouncilCollective = pallet_collective::Instance1;
+impl pallet_collective::Config<CouncilCollective> for Runtime {
+	type Origin = Origin;
+	type Proposal = Call;
+	type Event = Event;
+	type MotionDuration = CouncilMotionDuration;
+	type MaxProposals = CouncilMaxProposals;
+	type MaxMembers = CouncilMaxMembers;
+	type DefaultVote = pallet_collective::PrimeDefaultVote;
+	type WeightInfo = pallet_collective::weights::SubstrateWeight<Runtime>;
+}
 
-// parameter_types! {
-// 	pub const CandidacyBond: Balance = 1_000 * DOLLARS;
-// 	pub const VotingBond: Balance = 10 * DOLLARS;
-// 	pub const TermDuration: BlockNumber = 28 * DAYS;
-// 	pub const DesiredMembers: u32 = 13;
-// 	pub const DesiredRunnersUp: u32 = 7;
-// 	pub const ElectionsPhragmenModuleId: LockIdentifier = *b"phrelect";
-// 	pub const CouncilMaxMembers: u32 = 100;
-// }
+parameter_types! {
+	pub const CandidacyBond: Balance = 1_000 * DOLLARS;
+	pub const VotingBond: Balance = 10 * DOLLARS;
+	pub const TermDuration: BlockNumber = 28 * DAYS;
+	pub const DesiredMembers: u32 = 13;
+	pub const DesiredRunnersUp: u32 = 7;
+	pub const ElectionsPhragmenModuleId: LockIdentifier = *b"phrelect";
+	pub const CouncilMaxMembers: u32 = 100;
+}
 
-// const_assert!(DesiredMembers::get() <= CouncilMaxMembers::get());
+const_assert!(DesiredMembers::get() <= CouncilMaxMembers::get());
 
-// impl pallet_elections_phragmen::Config for Runtime {
-// 	type Event = Event;
-// 	type ModuleId = ElectionsPhragmenModuleId;
-// 	type Currency = Balances;
-// 	type ChangeMembers = Council;
-// 	// NOTE: this implies that council's genesis members cannot be set directly and must come from
-// 	// this module.
-// 	type InitializeMembers = Council;
-// 	type CurrencyToVote = U128CurrencyToVote;
-// 	type CandidacyBond = CandidacyBond;
-// 	type VotingBond = VotingBond;
-// 	type LoserCandidate = ();
-// 	type BadReport = ();
-// 	type KickedMember = ();
-// 	type DesiredMembers = DesiredMembers;
-// 	type DesiredRunnersUp = DesiredRunnersUp;
-// 	type TermDuration = TermDuration;
-// 	type WeightInfo = pallet_elections_phragmen::weights::SubstrateWeight<Runtime>;
-// }
+impl pallet_elections_phragmen::Config for Runtime {
+	type Event = Event;
+	type ModuleId = ElectionsPhragmenModuleId;
+	type Currency = Balances;
+	type ChangeMembers = Council;
+	// NOTE: this implies that council's genesis members cannot be set directly and must come from
+	// this module.
+	type InitializeMembers = Council;
+	type CurrencyToVote = U128CurrencyToVote;
+	type CandidacyBond = CandidacyBond;
+	type VotingBond = VotingBond;
+	type LoserCandidate = ();
+	type BadReport = ();
+	type KickedMember = ();
+	type DesiredMembers = DesiredMembers;
+	type DesiredRunnersUp = DesiredRunnersUp;
+	type TermDuration = TermDuration;
+	type WeightInfo = pallet_elections_phragmen::weights::SubstrateWeight<Runtime>;
+}
 
 // parameter_types! {
 // 	pub const ProposalBond: Permill = Permill::from_percent(5);
@@ -734,6 +735,8 @@ construct_runtime! {
 		ParachainInfo: parachain_info::{Module, Storage, Config},
 		XcmHandler: xcm_handler::{Module, Event<T>, Origin},
 
+		Elections: pallet_elections_phragmen::{Module, Call, Storage, Event<T>, Config<T>},
+		Council: pallet_collective::<Instance1>::{Module, Call, Storage, Origin<T>, Event<T>, Config<T>},
 		Utility: pallet_utility::{Module, Call, Event},
 		Identity: pallet_identity::{Module, Call, Storage, Event<T>},
 		Recovery: pallet_recovery::{Module, Call, Storage, Event<T>},
