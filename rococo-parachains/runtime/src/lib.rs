@@ -22,6 +22,7 @@
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
+use pallet_contracts::WeightInfo;
 use frame_system::EnsureOneOf;
 use sp_runtime::Percent;
 use sp_runtime::ModuleId;
@@ -643,11 +644,11 @@ parameter_types! {
 	pub const MaxRegistrars: u32 = 20;
 }
 
-// type EnsureRootOrHalfCouncil = EnsureOneOf<
-// 	AccountId,
-// 	EnsureRoot<AccountId>,
-// 	pallet_collective::EnsureProportionMoreThan<_1, _2, AccountId, CouncilCollective>
-// >;
+type EnsureRootOrHalfCouncil = EnsureOneOf<
+	AccountId,
+	EnsureRoot<AccountId>,
+	pallet_collective::EnsureProportionMoreThan<_1, _2, AccountId, CouncilCollective>
+>;
 
 impl pallet_identity::Config for Runtime {
 	type Event = Event;
@@ -659,8 +660,8 @@ impl pallet_identity::Config for Runtime {
 	type MaxAdditionalFields = MaxAdditionalFields;
 	type MaxRegistrars = MaxRegistrars;
 	type Slashed = ();
-	type ForceOrigin = EnsureRoot<AccountId>;
-	type RegistrarOrigin = EnsureRoot<AccountId>;
+	type ForceOrigin = EnsureRootOrHalfCouncil;
+	type RegistrarOrigin = EnsureRootOrHalfCouncil;
 	type WeightInfo = pallet_identity::weights::SubstrateWeight<Runtime>;
 }
 
@@ -681,34 +682,51 @@ impl pallet_recovery::Config for Runtime {
 	type RecoveryDeposit = RecoveryDeposit;
 }
 
-// parameter_types! {
-// 	pub const TombstoneDeposit: Balance = 16 * MILLICENTS;
-// 	pub const RentByteFee: Balance = 1 * MILLICENTS;
-// 	pub const RentDepositOffset: Balance = 100 * MILLICENTS;
-// 	pub const SurchargeReward: Balance = 15 * MILLICENTS;
-// 	pub const SignedClaimHandicap: u32 = 2;
-// 	pub const MaxDepth: u32 = 32;
-// 	pub const StorageSizeOffset: u32 = 8;
-// 	pub const MaxValueSize: u32 = 16 * 1024;
-// }
+parameter_types! {
+	pub const TombstoneDeposit: Balance = deposit(
+		1,
+		sp_std::mem::size_of::<pallet_contracts::ContractInfo<Runtime>>() as u32
+	);
+	pub const DepositPerContract: Balance = TombstoneDeposit::get();
+	pub const DepositPerStorageByte: Balance = deposit(0, 1);
+	pub const DepositPerStorageItem: Balance = deposit(1, 0);
+	pub RentFraction: Perbill = Perbill::from_rational_approximation(1u32, 30 * DAYS);
+	pub const SurchargeReward: Balance = 150 * MILLICENTS;
+	pub const SignedClaimHandicap: u32 = 2;
+	pub const MaxDepth: u32 = 32;
+	pub const MaxValueSize: u32 = 16 * 1024;
+	// The lazy deletion runs inside on_initialize.
+	pub DeletionWeightLimit: Weight = AVERAGE_ON_INITIALIZE_RATIO *
+		RuntimeBlockWeights::get().max_block;
+	// The weight needed for decoding the queue should be less or equal than a fifth
+	// of the overall weight dedicated to the lazy deletion.
+	pub DeletionQueueDepth: u32 = ((DeletionWeightLimit::get() / (
+			<Runtime as pallet_contracts::Config>::WeightInfo::on_initialize_per_queue_item(1) -
+			<Runtime as pallet_contracts::Config>::WeightInfo::on_initialize_per_queue_item(0)
+		)) / 5) as u32;
+}
 
-// impl pallet_contracts::Config for Runtime {
-// 	type Time = Timestamp;
-// 	type Randomness = RandomnessCollectiveFlip;
-// 	type Currency = Balances;
-// 	type Event = Event;
-// 	type RentPayment = ();
-// 	type SignedClaimHandicap = SignedClaimHandicap;
-// 	type TombstoneDeposit = TombstoneDeposit;
-// 	type StorageSizeOffset = StorageSizeOffset;
-// 	type RentByteFee = RentByteFee;
-// 	type RentDepositOffset = RentDepositOffset;
-// 	type SurchargeReward = SurchargeReward;
-// 	type MaxDepth = MaxDepth;
-// 	type MaxValueSize = MaxValueSize;
-// 	type WeightPrice = pallet_transaction_payment::Module<Self>;
-// 	type WeightInfo = pallet_contracts::weights::SubstrateWeight<Runtime>;
-// }
+impl pallet_contracts::Config for Runtime {
+	type Time = Timestamp;
+	type Randomness = RandomnessCollectiveFlip;
+	type Currency = Balances;
+	type Event = Event;
+	type RentPayment = ();
+	type SignedClaimHandicap = SignedClaimHandicap;
+	type TombstoneDeposit = TombstoneDeposit;
+	type DepositPerContract = DepositPerContract;
+	type DepositPerStorageByte = DepositPerStorageByte;
+	type DepositPerStorageItem = DepositPerStorageItem;
+	type RentFraction = RentFraction;
+	type SurchargeReward = SurchargeReward;
+	type MaxDepth = MaxDepth;
+	type MaxValueSize = MaxValueSize;
+	type WeightPrice = pallet_transaction_payment::Module<Self>;
+	type WeightInfo = pallet_contracts::weights::SubstrateWeight<Self>;
+	type ChainExtension = ();
+	type DeletionQueueDepth = DeletionQueueDepth;
+	type DeletionWeightLimit = DeletionWeightLimit;
+}
 
 parameter_types! {
 	pub const MinimumTreasuryPct: Percent = Percent::from_percent(50);
@@ -777,6 +795,7 @@ construct_runtime! {
 		Assets: edge_assets::{Module, Call, Storage, Event<T>},
 
 		Democracy: pallet_democracy::{Module, Call, Storage, Config, Event<T>},
+		Contracts: pallet_contracts::{Module, Call, Config<T>, Storage, Event<T>},
 	}
 }
 
@@ -881,6 +900,33 @@ impl_runtime_apis! {
 
 		fn generate_session_keys(seed: Option<Vec<u8>>) -> Vec<u8> {
 			SessionKeys::generate(seed)
+		}
+	}
+
+	impl pallet_contracts_rpc_runtime_api::ContractsApi<Block, AccountId, Balance, BlockNumber>
+		for Runtime
+	{
+		fn call(
+			origin: AccountId,
+			dest: AccountId,
+			value: Balance,
+			gas_limit: u64,
+			input_data: Vec<u8>,
+		) -> pallet_contracts_primitives::ContractExecResult {
+			Contracts::bare_call(origin, dest, value, gas_limit, input_data)
+		}
+
+		fn get_storage(
+			address: AccountId,
+			key: [u8; 32],
+		) -> pallet_contracts_primitives::GetStorageResult {
+			Contracts::get_storage(address, key)
+		}
+
+		fn rent_projection(
+			address: AccountId,
+		) -> pallet_contracts_primitives::RentProjectionResult<BlockNumber> {
+			Contracts::rent_projection(address)
 		}
 	}
 }

@@ -142,6 +142,7 @@ fn testnet_genesis(
 		}),
 		pallet_sudo: Some(parachain_runtime::SudoConfig { key: root_key }),
 		parachain_info: Some(parachain_runtime::ParachainInfoConfig { parachain_id: id }),
+		pallet_contracts: Some(Default::default()),
 		pallet_democracy: Some(parachain_runtime::DemocracyConfig::default()),
 		pallet_collective_Instance1: Some(parachain_runtime::CouncilConfig {
 			members: vec![],
