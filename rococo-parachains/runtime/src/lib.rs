@@ -22,10 +22,13 @@
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
+use frame_system::EnsureOneOf;
+use sp_runtime::Percent;
+use sp_runtime::ModuleId;
 use static_assertions::const_assert;
 use rococo_parachain_primitives::*;
 use sp_api::impl_runtime_apis;
-use sp_core::OpaqueMetadata;
+use sp_core::{OpaqueMetadata, u32_trait::{_1, _2, _3, _4, _5}};
 use sp_runtime::{
 	create_runtime_str, generic, impl_opaque_keys,
 	traits::{BlakeTwo256, Block as BlockT, IdentityLookup},
@@ -566,53 +569,70 @@ impl pallet_elections_phragmen::Config for Runtime {
 	type WeightInfo = pallet_elections_phragmen::weights::SubstrateWeight<Runtime>;
 }
 
-// parameter_types! {
-// 	pub const ProposalBond: Permill = Permill::from_percent(5);
-// 	pub const ProposalBondMinimum: Balance = 1_000 * DOLLARS;
-// 	pub const SpendPeriod: BlockNumber = 14 * DAYS;
-// 	pub const Burn: Permill = Permill::from_percent(0);
-// 	pub const TipCountdown: BlockNumber = 1 * DAYS;
-// 	pub const TipFindersFee: Percent = Percent::from_percent(20);
-// 	pub const TipReportDepositBase: Balance = 1 * DOLLARS;
-// 	pub const DataDepositPerByte: Balance = 1 * CENTS;
-// 	pub const BountyDepositBase: Balance = 10 * DOLLARS;
-// 	pub const BountyDepositPayoutDelay: BlockNumber = 7 * DAYS;
-// 	pub const TreasuryModuleId: ModuleId = ModuleId(*b"py/trsry");
-// 	pub const BountyUpdatePeriod: BlockNumber = 14 * DAYS;
-// 	pub const MaximumReasonLength: u32 = 16384;
-// 	pub const BountyCuratorDeposit: Permill = Permill::from_percent(50);
-// 	pub const BountyValueMinimum: Balance = 100 * DOLLARS;
-// }
+parameter_types! {
+	pub const ProposalBond: Permill = Permill::from_percent(5);
+	pub const ProposalBondMinimum: Balance = 1 * DOLLARS;
+	pub const SpendPeriod: BlockNumber = 1 * DAYS;
+	pub const Burn: Permill = Permill::from_percent(50);
+	pub const TipCountdown: BlockNumber = 1 * DAYS;
+	pub const TipFindersFee: Percent = Percent::from_percent(20);
+	pub const TipReportDepositBase: Balance = 1 * DOLLARS;
+	pub const DataDepositPerByte: Balance = 1 * CENTS;
+	pub const BountyDepositBase: Balance = 1 * DOLLARS;
+	pub const BountyDepositPayoutDelay: BlockNumber = 1 * DAYS;
+	pub const TreasuryModuleId: ModuleId = ModuleId(*b"py/trsry");
+	pub const BountyUpdatePeriod: BlockNumber = 14 * DAYS;
+	pub const MaximumReasonLength: u32 = 16384;
+	pub const BountyCuratorDeposit: Permill = Permill::from_percent(50);
+	pub const BountyValueMinimum: Balance = 5 * DOLLARS;
+}
 
-// impl pallet_treasury::Config for Runtime {
-// 	type ModuleId = TreasuryModuleId;
-// 	type Currency = Balances;
-// 	type ApproveOrigin = EnsureOneOf<
-// 		AccountId,
-// 		EnsureRoot<AccountId>,
-// 		pallet_collective::EnsureProportionAtLeast<_3, _5, AccountId, CouncilCollective>
-// 	>;
-// 	type RejectOrigin = EnsureRootOrHalfCouncil;
-// 	type Tippers = Elections;
-// 	type TipCountdown = TipCountdown;
-// 	type TipFindersFee = TipFindersFee;
-// 	type TipReportDepositBase = TipReportDepositBase;
-// 	type DataDepositPerByte = DataDepositPerByte;
-// 	type Event = Event;
-// 	type OnSlash = ();
-// 	type ProposalBond = ProposalBond;
-// 	type ProposalBondMinimum = ProposalBondMinimum;
-// 	type SpendPeriod = SpendPeriod;
-// 	type Burn = Burn;
-// 	type BountyDepositBase = BountyDepositBase;
-// 	type BountyDepositPayoutDelay = BountyDepositPayoutDelay;
-// 	type BountyUpdatePeriod = BountyUpdatePeriod;
-// 	type BountyCuratorDeposit = BountyCuratorDeposit;
-// 	type BountyValueMinimum = BountyValueMinimum;
-// 	type MaximumReasonLength = MaximumReasonLength;
-// 	type BurnDestination = ();
-// 	type WeightInfo = pallet_treasury::weights::SubstrateWeight<Runtime>;
-// }
+impl pallet_treasury::Config for Runtime {
+	type ModuleId = TreasuryModuleId;
+	type Currency = Balances;
+	type ApproveOrigin = EnsureOneOf<
+		AccountId,
+		EnsureRoot<AccountId>,
+		pallet_collective::EnsureProportionAtLeast<_3, _5, AccountId, CouncilCollective>
+	>;
+	type RejectOrigin = EnsureOneOf<
+		AccountId,
+		EnsureRoot<AccountId>,
+		pallet_collective::EnsureProportionMoreThan<_1, _2, AccountId, CouncilCollective>
+	>;
+	type Event = Event;
+	type OnSlash = ();
+	type ProposalBond = ProposalBond;
+	type ProposalBondMinimum = ProposalBondMinimum;
+	type SpendPeriod = SpendPeriod;
+	type Burn = Burn;
+	type BurnDestination = ();
+	type SpendFunds = Bounties;
+	type WeightInfo = pallet_treasury::weights::SubstrateWeight<Runtime>;
+}
+
+impl pallet_bounties::Config for Runtime {
+	type Event = Event;
+	type BountyDepositBase = BountyDepositBase;
+	type BountyDepositPayoutDelay = BountyDepositPayoutDelay;
+	type BountyUpdatePeriod = BountyUpdatePeriod;
+	type BountyCuratorDeposit = BountyCuratorDeposit;
+	type BountyValueMinimum = BountyValueMinimum;
+	type DataDepositPerByte = DataDepositPerByte;
+	type MaximumReasonLength = MaximumReasonLength;
+	type WeightInfo = pallet_bounties::weights::SubstrateWeight<Runtime>;
+}
+
+impl pallet_tips::Config for Runtime {
+	type Event = Event;
+	type DataDepositPerByte = DataDepositPerByte;
+	type MaximumReasonLength = MaximumReasonLength;
+	type Tippers = Elections;
+	type TipCountdown = TipCountdown;
+	type TipFindersFee = TipFindersFee;
+	type TipReportDepositBase = TipReportDepositBase;
+	type WeightInfo = pallet_tips::weights::SubstrateWeight<Runtime>;
+}
 
 parameter_types! {
 	pub const BasicDeposit: Balance = 5 * DOLLARS;       // 258 bytes on-chain
@@ -743,8 +763,10 @@ construct_runtime! {
 		Scheduler: pallet_scheduler::{Module, Call, Storage, Event<T>},
 		Multisig: pallet_multisig::{Module, Call, Storage, Event<T>},
 
+		Treasury: pallet_treasury::{Module, Call, Storage, Config, Event<T>},
+		Bounties: pallet_bounties::{Module, Call, Storage, Event<T>},
+		Tips: pallet_tips::{Module, Call, Storage, Event<T>},
 		Assets: edge_assets::{Module, Call, Storage, Event<T>},
-		// TreasuryReward: treasury_reward::{Module, Call, Storage, Config<T>, Event<T>},
 	}
 }
 

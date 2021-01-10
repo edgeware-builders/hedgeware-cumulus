@@ -146,7 +146,7 @@ fn testnet_genesis(
 			members: vec![],
 			phantom: Default::default(),
 		}),
-		// pallet_treasury: Some(Default::default()),
+		pallet_treasury: Some(Default::default()),
 		pallet_elections_phragmen: Some(Default::default()),
 	}
 }
