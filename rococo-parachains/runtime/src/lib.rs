@@ -46,7 +46,7 @@ use sp_version::RuntimeVersion;
 // A few exports that help ease life for downstream crates.
 pub use frame_support::{
 	construct_runtime, parameter_types, RuntimeDebug,
-	traits::{Currency, FindAuthor, Imbalance, KeyOwnerProofSystem, OnUnbalanced, Randomness, LockIdentifier, U128CurrencyToVote},
+	traits::{Currency, FindAuthor, Imbalance, KeyOwnerProofSystem, Randomness, LockIdentifier, U128CurrencyToVote, OnUnbalanced},
 	weights::{
 		constants::{BlockExecutionWeight, ExtrinsicBaseWeight, RocksDbWeight, WEIGHT_PER_SECOND},
 		DispatchClass, IdentityFee, Weight,
@@ -133,6 +133,23 @@ pub fn native_version() -> NativeVersion {
 	NativeVersion {
 		runtime_version: VERSION,
 		can_author_with: Default::default(),
+	}
+}
+
+type NegativeImbalance = <Balances as Currency<AccountId>>::NegativeImbalance;
+
+pub struct DealWithFees;
+impl OnUnbalanced<NegativeImbalance> for DealWithFees {
+	fn on_unbalanceds<B>(mut fees_then_tips: impl Iterator<Item = NegativeImbalance>) {
+		if let Some(fees) = fees_then_tips.next() {
+			// for fees, 100% to treasury, 0% to author
+			let mut split = fees.ration(100, 0);
+			if let Some(tips) = fees_then_tips.next() {
+				// for tips, if any, 100% to treasury, 0% to author (though this can be anything)
+				tips.ration_merge_into(100, 0, &mut split);
+			}
+			Treasury::on_unbalanced(split.0);
+		}
 	}
 }
 
@@ -242,7 +259,7 @@ impl pallet_balances::Config for Runtime {
 }
 
 impl pallet_transaction_payment::Config for Runtime {
-	type OnChargeTransaction = pallet_transaction_payment::CurrencyAdapter<Balances, ()>;
+	type OnChargeTransaction = pallet_transaction_payment::CurrencyAdapter<Balances, DealWithFees>;
 	type TransactionByteFee = TransactionByteFee;
 	type WeightToFee = IdentityFee<Balance>;
 	type FeeMultiplierUpdate = ();
@@ -743,6 +760,25 @@ impl edge_assets::Config for Runtime {
 	type WeightInfo = edge_assets::weights::SubstrateWeight<Runtime>;
 }
 
+// impl<F: FindAuthor<u32>> FindAuthor<H160> for EthereumFindAuthor<F> {
+// 	fn find_author<'a, I>(_digests: I) -> Option<H160>
+// 	where
+// 		I: 'a + IntoIterator<Item = (ConsensusEngineId, &'a [u8])>,
+// 	{
+// 		None
+// 	}
+// }
+
+// pub struct PhantomAura;
+// impl FindAuthor<u32> for PhantomAura {
+// 	fn find_author<'a, I>(_digests: I) -> Option<u32>
+// 	where
+// 		I: 'a + IntoIterator<Item = (ConsensusEngineId, &'a [u8])>,
+// 	{
+// 		Some(0 as u32)
+// 	}
+// }
+
 
 construct_runtime! {
 	pub enum Runtime where
@@ -778,6 +814,9 @@ construct_runtime! {
 
 		Democracy: pallet_democracy::{Module, Call, Storage, Config, Event<T>},
 		Contracts: pallet_contracts::{Module, Call, Config<T>, Storage, Event<T>},
+
+		// EVM: pallet_evm::{Module, Config, Call, Storage, Event<T>},
+		// Ethereum: pallet_ethereum::{Module, Call, Storage, Event, Config, ValidateUnsigned},
 	}
 }
 
