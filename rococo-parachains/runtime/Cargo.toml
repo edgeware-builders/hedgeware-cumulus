@@ -48,6 +48,7 @@ pallet-tips = { git = "https://github.com/paritytech/substrate", default-feature
 pallet-treasury = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "master" }
 pallet-transaction-payment = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "master" }
 pallet-utility = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "master" }
+pallet-vesting = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "master" }
 
 # Edgeware modules
 edge-assets = { path = "../modules/edge-assets", default-features = false }
@@ -115,6 +116,7 @@ std = [
 	"pallet-transaction-payment/std",
 	"pallet-treasury/std",
 	"pallet-utility/std",
+	"pallet-vesting/std",
 	"parachain-info/std",
 	"rococo-parachain-primitives/std",
 	"cumulus-runtime/std",

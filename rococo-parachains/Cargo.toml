@@ -18,8 +18,10 @@ parking_lot = '0.9.0'
 trie-root = '0.15.2'
 codec = { package = 'parity-scale-codec', version = '1.0.0' }
 structopt = "0.3.3"
+serde_json = "1.0"
 serde = { version = "1.0.101", features = ["derive"] }
 hex-literal = "0.2.1"
+hex = "0.3.2"
 
 # Parachain dependencies
 parachain-runtime = { package = "cumulus-test-parachain-runtime", path = "runtime" }
@@ -67,6 +69,9 @@ polkadot-service = { git = "https://github.com/paritytech/polkadot", branch = "m
 polkadot-cli = { git = "https://github.com/paritytech/polkadot", branch = "master" }
 polkadot-test-service = { git = "https://github.com/paritytech/polkadot", branch = "master" }
 polkadot-parachain = { git = "https://github.com/paritytech/polkadot", branch = "master" }
+
+# Hedgeware
+lockdrop = { path = "./lockdrop" }
 
 [build-dependencies]
 substrate-build-script-utils = { git = "https://github.com/paritytech/substrate", branch = "master" }

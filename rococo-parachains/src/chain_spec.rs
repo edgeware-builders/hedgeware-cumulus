@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Cumulus.  If not, see <http://www.gnu.org/licenses/>.
 
+use parachain_runtime::DOLLARS;
 use cumulus_primitives::ParaId;
 use hex_literal::hex;
 use rococo_parachain_primitives::{AccountId, Signature};
@@ -22,6 +23,9 @@ use sc_service::ChainType;
 use serde::{Deserialize, Serialize};
 use sp_core::{sr25519, Pair, Public};
 use sp_runtime::traits::{IdentifyAccount, Verify};
+use lockdrop::*;
+use rococo_parachain_primitives::*;
+use hex::FromHex;
 
 /// Specialized `ChainSpec` for the normal parachain runtime.
 pub type ChainSpec = sc_service::GenericChainSpec<parachain_runtime::GenesisConfig, Extensions>;
@@ -61,6 +65,14 @@ where
 }
 
 pub fn get_chain_spec(id: ParaId) -> ChainSpec {
+	let data = r#"
+		{
+			"ss58Format": 42,
+			"tokenDecimals": 18,
+			"tokenSymbol": "tHEDG"
+		}"#;
+	let properties = serde_json::from_str(data).unwrap();
+
 	ChainSpec::from_genesis(
 		"Local Testnet",
 		"local_testnet",
@@ -88,34 +100,39 @@ pub fn get_chain_spec(id: ParaId) -> ChainSpec {
 		vec![],
 		None,
 		None,
-		None,
+		properties,
 		Extensions {
-			relay_chain: "westend-dev".into(),
+			relay_chain: "rococo_local_testnet".into(),
 			para_id: id.into(),
 		},
 	)
 }
 
-pub fn staging_test_net(id: ParaId) -> ChainSpec {
+pub fn hedgeware(id: ParaId) -> ChainSpec {
+	let data = r#"
+		{
+			"ss58Format": 77,
+			"tokenDecimals": 18,
+			"tokenSymbol": "tHEDG"
+		}"#;
+	let properties = serde_json::from_str(data).unwrap();
 	ChainSpec::from_genesis(
-		"Staging Testnet",
-		"staging_testnet",
+		"Hedgeware",
+		"hedgeware",
 		ChainType::Live,
 		move || {
 			testnet_genesis(
-				hex!["9ed7705e3c7da027ba0583a22a3212042f7e715d3c168ba14f1424e2bc111d00"].into(),
-				vec![
-					hex!["9ed7705e3c7da027ba0583a22a3212042f7e715d3c168ba14f1424e2bc111d00"].into(),
-				],
+				hex!["0000000000000000000000000000000000000000000000000000000000000000"].into(),
+				vec![],
 				id,
 			)
 		},
 		Vec::new(),
 		None,
 		None,
-		None,
+		properties,
 		Extensions {
-			relay_chain: "westend-dev".into(),
+			relay_chain: "rococo".into(),
 			para_id: id.into(),
 		},
 	)
@@ -126,6 +143,12 @@ fn testnet_genesis(
 	endowed_accounts: Vec<AccountId>,
 	id: ParaId,
 ) -> parachain_runtime::GenesisConfig {
+	let allocation: Allocation = parse_allocation().unwrap();
+	let balances: Vec<(AccountId, Balance)> = allocation.balances;
+	let vesting: Vec<(AccountId, BlockNumber, BlockNumber, Balance)> = allocation.vesting;
+
+	const INITIAL_BALANCE: u128 = 1_000_000 * DOLLARS;
+
 	parachain_runtime::GenesisConfig {
 		frame_system: Some(parachain_runtime::SystemConfig {
 			code: parachain_runtime::WASM_BINARY
@@ -134,12 +157,17 @@ fn testnet_genesis(
 			changes_trie_config: Default::default(),
 		}),
 		pallet_balances: Some(parachain_runtime::BalancesConfig {
-			balances: endowed_accounts
-				.iter()
-				.cloned()
-				.map(|k| (k, 1 << 60))
-				.collect(),
+			balances: balances.into_iter()
+				.chain::<Vec<(AccountId, Balance)>>(
+					endowed_accounts
+						.iter()
+						.map(|a| (a.clone(), INITIAL_BALANCE))
+						.collect()
+					)
+				.map(|a| a)
+				.collect::<Vec<(AccountId, Balance)>>(),
 		}),
+		pallet_vesting: Some(parachain_runtime::VestingConfig { vesting: vesting }),
 		pallet_sudo: Some(parachain_runtime::SudoConfig { key: root_key }),
 		parachain_info: Some(parachain_runtime::ParachainInfoConfig { parachain_id: id }),
 		pallet_contracts: Some(Default::default()),

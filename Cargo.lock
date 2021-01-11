@@ -1278,6 +1278,7 @@ dependencies = [
  "pallet-transaction-payment",
  "pallet-treasury",
  "pallet-utility",
+ "pallet-vesting",
  "parachain-info",
  "parity-scale-codec",
  "polkadot-parachain",
@@ -2422,6 +2423,12 @@ checksum = "5aca5565f760fb5b220e499d72710ed156fdb74e631659e99377d9ebfbd13ae8"
 dependencies = [
  "libc",
 ]
+
+[[package]]
+name = "hex"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "805026a5d0141ffc30abb3be3173848ad46a1b1664fe632428479619a3644d77"
 
 [[package]]
 name = "hex"
@@ -3626,6 +3633,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dd96ffd135b2fd7b973ac026d28085defbe8983df057ced3eb4f2130b0831312"
 dependencies = [
  "scopeguard 1.1.0",
+]
+
+[[package]]
+name = "lockdrop"
+version = "0.1.0"
+dependencies = [
+ "hex 0.3.2",
+ "parity-scale-codec",
+ "rococo-parachain-primitives",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
@@ -6058,7 +6076,7 @@ dependencies = [
  "frame-system",
  "futures 0.1.30",
  "futures 0.3.9",
- "hex",
+ "hex 0.4.2",
  "pallet-balances",
  "pallet-staking",
  "pallet-transaction-payment",
@@ -6835,8 +6853,10 @@ dependencies = [
  "derive_more 0.15.0",
  "exit-future 0.1.4",
  "futures 0.3.9",
+ "hex 0.3.2",
  "hex-literal 0.2.1",
  "jsonrpc-core",
+ "lockdrop",
  "log",
  "nix 0.17.0",
  "pallet-sudo",
@@ -6865,6 +6885,7 @@ dependencies = [
  "sc-tracing",
  "sc-transaction-pool",
  "serde",
+ "serde_json",
  "sp-block-builder",
  "sp-blockchain",
  "sp-consensus",
@@ -7191,7 +7212,7 @@ dependencies = [
  "chrono",
  "fdlimit",
  "futures 0.3.9",
- "hex",
+ "hex 0.4.2",
  "libp2p",
  "log",
  "names",
@@ -7599,7 +7620,7 @@ dependencies = [
  "derive_more 0.99.11",
  "futures 0.3.9",
  "futures-util",
- "hex",
+ "hex 0.4.2",
  "merlin",
  "parking_lot 0.11.1",
  "rand 0.7.3",
@@ -7647,7 +7668,7 @@ dependencies = [
  "futures 0.3.9",
  "futures-timer 3.0.2",
  "futures_codec",
- "hex",
+ "hex 0.4.2",
  "ip_network",
  "libp2p",
  "linked-hash-map",
@@ -8674,7 +8695,7 @@ dependencies = [
  "futures 0.3.9",
  "hash-db",
  "hash256-std-hasher",
- "hex",
+ "hex 0.4.2",
  "impl-serde",
  "lazy_static",
  "libsecp256k1",
@@ -9294,7 +9315,7 @@ dependencies = [
  "futures 0.1.30",
  "futures 0.3.9",
  "hash-db",
- "hex",
+ "hex 0.4.2",
  "parity-scale-codec",
  "sc-client-api",
  "sc-client-db",
@@ -10094,7 +10115,7 @@ checksum = "e11fe9a9348741cf134085ad57c249508345fe16411b3d7fb4ff2da2f1d6382e"
 dependencies = [
  "byteorder",
  "crunchy",
- "hex",
+ "hex 0.4.2",
  "static_assertions",
 ]
 

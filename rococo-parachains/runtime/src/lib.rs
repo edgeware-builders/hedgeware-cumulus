@@ -28,6 +28,7 @@ use pallet_contracts::WeightInfo;
 use frame_system::EnsureOneOf;
 use sp_runtime::Percent;
 use sp_runtime::ModuleId;
+use sp_runtime::traits::ConvertInto;
 use static_assertions::const_assert;
 use rococo_parachain_primitives::*;
 use sp_api::impl_runtime_apis;
@@ -338,6 +339,18 @@ impl pallet_utility::Config for Runtime {
 	type Event = Event;
 	type Call = Call;
 	type WeightInfo = pallet_utility::weights::SubstrateWeight<Runtime>;
+}
+
+parameter_types! {
+	pub const MinVestedTransfer: Balance = 1 * DOLLARS;
+}
+
+impl pallet_vesting::Config for Runtime {
+	type Event = Event;
+	type Currency = Balances;
+	type BlockNumberToBalance = ConvertInto;
+	type MinVestedTransfer = MinVestedTransfer;
+	type WeightInfo = pallet_vesting::weights::SubstrateWeight<Runtime>;
 }
 
 parameter_types! {
@@ -814,7 +827,7 @@ construct_runtime! {
 
 		Democracy: pallet_democracy::{Module, Call, Storage, Config, Event<T>},
 		Contracts: pallet_contracts::{Module, Call, Config<T>, Storage, Event<T>},
-
+		Vesting: pallet_vesting::{Module, Call, Storage, Event<T>, Config<T>},
 		// EVM: pallet_evm::{Module, Config, Call, Storage, Event<T>},
 		// Ethereum: pallet_ethereum::{Module, Call, Storage, Event, Config, ValidateUnsigned},
 	}
