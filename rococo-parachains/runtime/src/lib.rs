@@ -773,24 +773,106 @@ impl edge_assets::Config for Runtime {
 	type WeightInfo = edge_assets::weights::SubstrateWeight<Runtime>;
 }
 
-// impl<F: FindAuthor<u32>> FindAuthor<H160> for EthereumFindAuthor<F> {
-// 	fn find_author<'a, I>(_digests: I) -> Option<H160>
-// 	where
-// 		I: 'a + IntoIterator<Item = (ConsensusEngineId, &'a [u8])>,
-// 	{
-// 		None
-// 	}
-// }
+/// Fixed gas price of `1`.
+pub struct FixedGasPrice;
 
-// pub struct PhantomAura;
-// impl FindAuthor<u32> for PhantomAura {
-// 	fn find_author<'a, I>(_digests: I) -> Option<u32>
-// 	where
-// 		I: 'a + IntoIterator<Item = (ConsensusEngineId, &'a [u8])>,
-// 	{
-// 		Some(0 as u32)
-// 	}
-// }
+impl FeeCalculator for FixedGasPrice {
+	fn min_gas_price() -> U256 {
+		// Gas price is always one token per gas.
+		1.into()
+	}
+}
+
+parameter_types! {
+	pub const EthChainId: u64 = 2021;
+}
+
+/// Clone of Istanbul config with `create_contract_limit` raised.
+static EVM_CONFIG: EvmConfig = EvmConfig {
+	gas_ext_code: 700,
+	gas_ext_code_hash: 700,
+	gas_balance: 700,
+	gas_sload: 800,
+	gas_sstore_set: 20000,
+	gas_sstore_reset: 5000,
+	refund_sstore_clears: 15000,
+	gas_suicide: 5000,
+	gas_suicide_new_account: 25000,
+	gas_call: 700,
+	gas_expbyte: 50,
+	gas_transaction_create: 53000,
+	gas_transaction_call: 21000,
+	gas_transaction_zero_data: 4,
+	gas_transaction_non_zero_data: 16,
+	sstore_gas_metering: true,
+	sstore_revert_under_stipend: true,
+	err_on_call_with_more_gas: false,
+	empty_considered_exists: false,
+	create_increase_nonce: true,
+	call_l64_after_gas: true,
+	stack_limit: 1024,
+	memory_limit: usize::max_value(),
+	call_stack_limit: 1024,
+	create_contract_limit: None,
+	call_stipend: 2300,
+	has_delegate_call: true,
+	has_create2: true,
+	has_revert: true,
+	has_return_data: true,
+	has_bitwise_shifting: true,
+	has_chain_id: true,
+	has_self_balance: true,
+	has_ext_code_hash: true,
+	estimate: false,
+};
+
+impl pallet_evm::Config for Runtime {
+	type FeeCalculator = FixedGasPrice;
+	type CallOrigin = EnsureAddressTruncated;
+	type WithdrawOrigin = EnsureAddressTruncated;
+	type AddressMapping = HashedAddressMapping<BlakeTwo256>;
+	type Currency = Balances;
+	type Event = Event;
+	type Runner = pallet_evm::runner::stack::Runner<Self>;
+	type Precompiles = (
+		pallet_evm_precompile_simple::ECRecover,
+		pallet_evm_precompile_simple::Sha256,
+		pallet_evm_precompile_simple::Ripemd160,
+		pallet_evm_precompile_simple::Identity,
+	);
+	type ChainId = EthChainId;
+	type GasWeightMapping = ();
+
+	/// EVM config used in the module.
+	fn config() -> &'static EvmConfig {
+		&EVM_CONFIG
+	}
+}
+
+pub struct EthereumFindAuthor<F>(PhantomData<F>);
+impl<F: FindAuthor<u32>> FindAuthor<H160> for EthereumFindAuthor<F> {
+	fn find_author<'a, I>(_digests: I) -> Option<H160>
+	where
+		I: 'a + IntoIterator<Item = (ConsensusEngineId, &'a [u8])>,
+	{
+		None
+	}
+}
+
+pub struct PhantomAura;
+impl FindAuthor<u32> for PhantomAura {
+	fn find_author<'a, I>(_digests: I) -> Option<u32>
+	where
+		I: 'a + IntoIterator<Item = (ConsensusEngineId, &'a [u8])>,
+	{
+		Some(0 as u32)
+	}
+}
+
+impl pallet_ethereum::Config for Runtime {
+	type Event = Event;
+	type FindAuthor = EthereumFindAuthor<PhantomAura>;
+}
 
 
 construct_runtime! {
@@ -828,8 +910,8 @@ construct_runtime! {
 		Democracy: pallet_democracy::{Module, Call, Storage, Config, Event<T>},
 		Contracts: pallet_contracts::{Module, Call, Config<T>, Storage, Event<T>},
 		Vesting: pallet_vesting::{Module, Call, Storage, Event<T>, Config<T>},
-		// EVM: pallet_evm::{Module, Config, Call, Storage, Event<T>},
-		// Ethereum: pallet_ethereum::{Module, Call, Storage, Event, Config, ValidateUnsigned},
+		EVM: pallet_evm::{Module, Config, Call, Storage, Event<T>},
+		Ethereum: pallet_ethereum::{Module, Call, Storage, Event, Config, ValidateUnsigned},
 	}
 }
 

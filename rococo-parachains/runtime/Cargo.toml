@@ -55,11 +55,11 @@ edge-assets = { path = "../modules/edge-assets", default-features = false }
 edge-treasury-reward = { path = "../modules/edge-treasury-reward", default-features = false }
 
 # EVM dependencies
-# evm-runtime = { version = "0.20.0", default-features = false }
-# pallet-evm = { path = "../frontier/frame/evm" }
-# pallet-evm-precompile-simple = { path = "../frontier/frame/evm/precompile/simple" }
-# pallet-ethereum = { path = "../frontier/frame/ethereum" }
-# fp-rpc = { path = "../frontier/primitives/rpc" }
+evm-runtime = { version = "0.20.0", default-features = false }
+pallet-evm = { git = "https://github.com/paritytech/frontier", default-features = false, branch = "master"}
+pallet-evm-precompile-simple = { git = "https://github.com/paritytech/frontier", default-features = false, branch = "master"}
+pallet-ethereum = { git = "https://github.com/paritytech/frontier", default-features = false, branch = "master"}
+fp-rpc = { git = "https://github.com/paritytech/frontier", default-features = false, branch = "master"}
 
 # Cumulus dependencies
 cumulus-runtime = { path = "../../runtime", default-features = false }
@@ -130,8 +130,8 @@ std = [
 
 	"edge-assets/std",
 	"edge-treasury-reward/std",
-#	"fp-rpc/std",
-#	"pallet-ethereum/std",
-#	"evm-runtime/std",
-#	"pallet-evm-precompile-simple/std",
+	"fp-rpc/std",
+	"pallet-ethereum/std",
+	"evm-runtime/std",
+	"pallet-evm-precompile-simple/std",
 ]
