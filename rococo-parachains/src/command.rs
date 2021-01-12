@@ -40,7 +40,8 @@ fn load_spec(
 	para_id: ParaId,
 ) -> std::result::Result<Box<dyn sc_service::ChainSpec>, String> {
 	match id {
-		"hedgeware" => Ok(Box::new(chain_spec::hedgeware(para_id))),
+		"hedgeware-rococo" => Ok(Box::new(chain_spec::hedgeware_rococo_testnet())),
+		"hedgeware-config" => Ok(Box::new(chain_spec::hedgeware(para_id))),
 		"" => Ok(Box::new(chain_spec::get_chain_spec(para_id))),
 		path => Ok(Box::new(chain_spec::ChainSpec::from_json_file(
 			path.into(),
@@ -50,7 +51,7 @@ fn load_spec(
 
 impl SubstrateCli for Cli {
 	fn impl_name() -> String {
-		"Cumulus Test Parachain Collator".into()
+		"Hedgeware Parachain Collator".into()
 	}
 
 	fn impl_version() -> String {
@@ -59,7 +60,7 @@ impl SubstrateCli for Cli {
 
 	fn description() -> String {
 		format!(
-			"Cumulus test parachain collator\n\nThe command-line arguments provided first will be \
+			"Hedgeware parachain collator\n\nThe command-line arguments provided first will be \
 		passed to the parachain node, while the arguments provided after -- will be passed \
 		to the relaychain node.\n\n\
 		{} [parachain-args] -- [relaychain-args]",
@@ -90,7 +91,7 @@ impl SubstrateCli for Cli {
 
 impl SubstrateCli for RelayChainCli {
 	fn impl_name() -> String {
-		"Cumulus Test Parachain Collator".into()
+		"Hedgeware Parachain Collator".into()
 	}
 
 	fn impl_version() -> String {
@@ -98,7 +99,7 @@ impl SubstrateCli for RelayChainCli {
 	}
 
 	fn description() -> String {
-		"Cumulus test parachain collator\n\nThe command-line arguments provided first will be \
+		"Hedgeware parachain collator\n\nThe command-line arguments provided first will be \
 		passed to the parachain node, while the arguments provided after -- will be passed \
 		to the relaychain node.\n\n\
 		rococo-collator [parachain-args] -- [relaychain-args]"

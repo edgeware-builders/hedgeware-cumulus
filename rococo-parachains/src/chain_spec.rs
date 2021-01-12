@@ -25,7 +25,6 @@ use sp_core::{sr25519, Pair, Public};
 use sp_runtime::traits::{IdentifyAccount, Verify};
 use lockdrop::*;
 use rococo_parachain_primitives::*;
-use hex::FromHex;
 
 /// Specialized `ChainSpec` for the normal parachain runtime.
 pub type ChainSpec = sc_service::GenericChainSpec<parachain_runtime::GenesisConfig, Extensions>;
@@ -51,6 +50,14 @@ impl Extensions {
 	/// Try to get the extension from the given `ChainSpec`.
 	pub fn try_get(chain_spec: &dyn sc_service::ChainSpec) -> Option<&Self> {
 		sc_chain_spec::get_extension(chain_spec.extensions())
+	}
+}
+
+/// Mainnet configuration
+pub fn hedgeware_rococo_testnet() -> ChainSpec {
+	match ChainSpec::from_json_bytes(&include_bytes!("../res/hedgeware_rococo.chainspec.json")[..]) {
+		Ok(spec) => spec,
+		Err(e) => panic!(e),
 	}
 }
 

@@ -20,7 +20,7 @@ pub struct AllocationRaw {
 }
 
 pub fn get_lockdrop_participants_allocation() -> Result<AllocationRaw> {
-	let path = Path::new("./allocation.json");
+	let path = Path::new("rococo-parachains/lockdrop/allocation/dump.json");
 	let mut file = File::open(&path).unwrap();
 	let mut data = String::new();
 	file.read_to_string(&mut data).unwrap();
