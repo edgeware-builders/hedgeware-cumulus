@@ -114,9 +114,9 @@ dependencies = [
 
 [[package]]
 name = "anyhow"
-version = "1.0.37"
+version = "1.0.38"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ee67c11feeac938fae061b232e38e0b6d94f97a9df10e6271319325ac4c56a86"
+checksum = "afddf7f520a80dbf76e6f50a35bca42a2331ef227a28b3b6dc5c2e2338d114b1"
 
 [[package]]
 name = "approx"
@@ -293,7 +293,7 @@ dependencies = [
  "memchr",
  "num_cpus",
  "once_cell",
- "pin-project-lite 0.2.0",
+ "pin-project-lite 0.2.4",
  "pin-utils",
  "slab",
  "wasm-bindgen-futures",
@@ -585,9 +585,9 @@ checksum = "e3b5ca7a04898ad4bcd41c90c5285445ff5b791899bb1b0abdd2a2aa791211d7"
 
 [[package]]
 name = "byteorder"
-version = "1.3.4"
+version = "1.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "08c48aae112d48ed9f069b33538ea9e3e90aa263cfa3d1c24309612b1f7472de"
+checksum = "ae44d1a3d5a19df61dd0c8beb138458ac2a53a7ac09eba97d55592540004306b"
 
 [[package]]
 name = "bytes"
@@ -607,19 +607,35 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0e4cec68f03f32e44924783795810fa50a7035d8c8ebe78580ad7e6c703fba38"
 
 [[package]]
+name = "bytes"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b700ce4376041dcd0a327fd0097c41095743c4c8af8887265942faf1100bd040"
+
+[[package]]
 name = "cache-padded"
 version = "1.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "631ae5198c9be5e753e5cc215e1bd73c2b466a3565173db433f52bb9d3e66dba"
 
 [[package]]
-name = "cargo_metadata"
-version = "0.12.1"
+name = "cargo-platform"
+version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "83f95cf4bf0dda0ac2e65371ae7215d0dce3c187613a9dbf23aaa9374186f97a"
+checksum = "0226944a63d1bf35a3b5f948dd7c59e263db83695c9e8bffc4037de02e30f1d7"
 dependencies = [
+ "serde",
+]
+
+[[package]]
+name = "cargo_metadata"
+version = "0.12.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "11a47b6286279a9998588ef7050d1ebc2500c69892a557c90fe5d071c64415dc"
+dependencies = [
+ "cargo-platform",
  "semver 0.11.0",
- "semver-parser 0.10.0",
+ "semver-parser 0.10.2",
  "serde",
  "serde_json",
 ]
@@ -745,9 +761,9 @@ dependencies = [
 
 [[package]]
 name = "const_fn"
-version = "0.4.4"
+version = "0.4.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cd51eab21ab4fd6a3bf889e2d0958c0a6e3a61ad04260325e919e652a2a62826"
+checksum = "28b9d6de7f49e22cf97ad17fc4036ece69300032f45f78f30b4a4482cdc3f4a6"
 
 [[package]]
 name = "constant_time_eq"
@@ -807,7 +823,7 @@ dependencies = [
  "log",
  "regalloc",
  "serde",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "target-lexicon",
  "thiserror",
 ]
@@ -845,7 +861,7 @@ checksum = "2ef419efb4f94ecc02e5d9fbcc910d2bb7f0040e2de570e63a454f883bc891d6"
 dependencies = [
  "cranelift-codegen",
  "log",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "target-lexicon",
 ]
 
@@ -1386,9 +1402,9 @@ dependencies = [
 
 [[package]]
 name = "curve25519-dalek"
-version = "2.1.0"
+version = "2.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5d85653f070353a16313d0046f173f70d1aadd5b42600a14de626f0dfb3473a5"
+checksum = "434e1720189a637d44fe464f4df1e6eb900b4835255b14354497c78af37d9bb8"
 dependencies = [
  "byteorder",
  "digest 0.8.1",
@@ -1399,9 +1415,9 @@ dependencies = [
 
 [[package]]
 name = "curve25519-dalek"
-version = "3.0.0"
+version = "3.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c8492de420e9e60bc9a1d66e2dbb91825390b738a388606600663fc529b4b307"
+checksum = "f627126b946c25a4638eec0ea634fc52506dea98db118aae985118ce7c3d723f"
 dependencies = [
  "byteorder",
  "digest 0.9.0",
@@ -1553,7 +1569,7 @@ version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c762bae6dcaf24c4c84667b8579785430908723d5c889f469d76a41d59cc7a9d"
 dependencies = [
- "curve25519-dalek 3.0.0",
+ "curve25519-dalek 3.0.2",
  "ed25519",
  "rand 0.7.3",
  "serde",
@@ -1832,8 +1848,8 @@ checksum = "3f9eec918d3f24069decb9af1554cad7c880e2da24a9afd88aca000531ab82c1"
 
 [[package]]
 name = "fork-tree"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "parity-scale-codec",
 ]
@@ -1850,8 +1866,8 @@ dependencies = [
 
 [[package]]
 name = "frame-benchmarking"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -1868,8 +1884,8 @@ dependencies = [
 
 [[package]]
 name = "frame-benchmarking-cli"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "Inflector",
  "chrono",
@@ -1891,8 +1907,8 @@ dependencies = [
 
 [[package]]
 name = "frame-executive"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -1907,8 +1923,8 @@ dependencies = [
 
 [[package]]
 name = "frame-metadata"
-version = "12.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "12.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "parity-scale-codec",
  "serde",
@@ -1918,8 +1934,8 @@ dependencies = [
 
 [[package]]
 name = "frame-support"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "bitflags",
  "frame-metadata",
@@ -1930,7 +1946,7 @@ dependencies = [
  "parity-scale-codec",
  "paste",
  "serde",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "sp-arithmetic",
  "sp-core",
  "sp-inherents",
@@ -1943,8 +1959,8 @@ dependencies = [
 
 [[package]]
 name = "frame-support-procedural"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "Inflector",
  "frame-support-procedural-tools",
@@ -1955,8 +1971,8 @@ dependencies = [
 
 [[package]]
 name = "frame-support-procedural-tools"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support-procedural-tools-derive",
  "proc-macro-crate",
@@ -1967,8 +1983,8 @@ dependencies = [
 
 [[package]]
 name = "frame-support-procedural-tools-derive"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "proc-macro2 1.0.24",
  "quote 1.0.8",
@@ -1977,8 +1993,8 @@ dependencies = [
 
 [[package]]
 name = "frame-system"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "impl-trait-for-tuples 0.2.0",
@@ -1993,8 +2009,8 @@ dependencies = [
 
 [[package]]
 name = "frame-system-rpc-runtime-api"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "parity-scale-codec",
  "sp-api",
@@ -2126,7 +2142,7 @@ dependencies = [
  "futures-io",
  "memchr",
  "parking",
- "pin-project-lite 0.2.0",
+ "pin-project-lite 0.2.4",
  "waker-fn",
 ]
 
@@ -2183,7 +2199,7 @@ dependencies = [
  "futures-sink",
  "futures-task",
  "memchr",
- "pin-project-lite 0.2.0",
+ "pin-project-lite 0.2.4",
  "pin-utils",
  "proc-macro-hack",
  "proc-macro-nested",
@@ -2207,19 +2223,6 @@ name = "gcc"
 version = "0.3.55"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8f5f3913fa0bfe7ee1fd8248b6b9f42a5af4b9d65ec2dd2c3c26132b950ecfc2"
-
-[[package]]
-name = "generator"
-version = "0.6.23"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8cdc09201b2e8ca1b19290cf7e65de2246b8e91fb6874279722189c4de7b94dc"
-dependencies = [
- "cc",
- "libc",
- "log",
- "rustc_version",
- "winapi 0.3.9",
-]
 
 [[package]]
 name = "generic-array"
@@ -2268,7 +2271,7 @@ checksum = "4060f4657be78b8e766215b02b18a2e862d83745545de804638e2b545e81aee6"
 dependencies = [
  "cfg-if 1.0.0",
  "libc",
- "wasi 0.10.0+wasi-snapshot-preview1",
+ "wasi 0.10.1+wasi-snapshot-preview1",
 ]
 
 [[package]]
@@ -2359,7 +2362,7 @@ dependencies = [
  "futures-core",
  "futures-sink",
  "futures-util",
- "http 0.2.2",
+ "http 0.2.3",
  "indexmap",
  "slab",
  "tokio 0.2.24",
@@ -2511,11 +2514,11 @@ dependencies = [
 
 [[package]]
 name = "http"
-version = "0.2.2"
+version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "84129d298a6d57d246960ff8eb831ca4af3f96d29e2e28848dae275408658e26"
+checksum = "7245cd7449cc792608c3c8a9eaf69bd4eabbabf802713748fd739c98b82f0747"
 dependencies = [
- "bytes 0.5.6",
+ "bytes 1.0.1",
  "fnv",
  "itoa",
 ]
@@ -2539,7 +2542,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "13d5ff830006f7646652e057693569bfe0d51760c0085a071769d142a205111b"
 dependencies = [
  "bytes 0.5.6",
- "http 0.2.2",
+ "http 0.2.3",
 ]
 
 [[package]]
@@ -2604,12 +2607,12 @@ dependencies = [
  "futures-core",
  "futures-util",
  "h2 0.2.7",
- "http 0.2.2",
+ "http 0.2.3",
  "http-body 0.3.1",
  "httparse",
  "httpdate",
  "itoa",
- "pin-project 1.0.3",
+ "pin-project 1.0.4",
  "socket2",
  "tokio 0.2.24",
  "tower-service",
@@ -2756,9 +2759,9 @@ dependencies = [
 
 [[package]]
 name = "integer-encoding"
-version = "1.1.5"
+version = "1.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4f4ebd0bd29be0f11973e9b3e219005661042a019fd757798c36a47c87852625"
+checksum = "f6104619c35f8835695e517cfb80fb7142139ee4b53f4d0fa4c8dca6e98fbc66"
 
 [[package]]
 name = "integer-sqrt"
@@ -2983,7 +2986,7 @@ dependencies = [
 [[package]]
 name = "kusama-runtime"
 version = "0.8.27"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "bitvec",
  "frame-executive",
@@ -3028,7 +3031,7 @@ dependencies = [
  "rustc-hex",
  "serde",
  "serde_derive",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "sp-api",
  "sp-authority-discovery",
  "sp-block-builder",
@@ -3063,7 +3066,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "92312348daade49976a6dc59263ad39ed54f840aacb5664874f7c9aa16e5f848"
 dependencies = [
  "parity-util-mem",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
 ]
 
 [[package]]
@@ -3092,7 +3095,7 @@ dependencies = [
  "parking_lot 0.11.1",
  "regex",
  "rocksdb",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
 ]
 
 [[package]]
@@ -3115,9 +3118,9 @@ checksum = "3576a87f2ba00f6f106fdfcd16db1d698d648a26ad8e0573cad8537c3c362d2a"
 
 [[package]]
 name = "libc"
-version = "0.2.81"
+version = "0.2.82"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1482821306169ec4d07f6aca392a4681f66c75c9918aa49641a2595db64053cb"
+checksum = "89203f3fba0a3795506acaad8ebce3c80c0af93f994d5a1d7a0b1eeb23271929"
 
 [[package]]
 name = "libloading"
@@ -3168,8 +3171,8 @@ dependencies = [
  "libp2p-yamux",
  "parity-multiaddr",
  "parking_lot 0.11.1",
- "pin-project 1.0.3",
- "smallvec 1.6.0",
+ "pin-project 1.0.4",
+ "smallvec 1.6.1",
  "wasm-timer",
 ]
 
@@ -3193,14 +3196,14 @@ dependencies = [
  "multistream-select",
  "parity-multiaddr",
  "parking_lot 0.11.1",
- "pin-project 1.0.3",
+ "pin-project 1.0.4",
  "prost",
  "prost-build",
  "rand 0.7.3",
  "ring",
  "rw-stream-sink",
  "sha2 0.9.2",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "thiserror",
  "unsigned-varint",
  "void",
@@ -3254,7 +3257,7 @@ dependencies = [
  "prost",
  "prost-build",
  "rand 0.7.3",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
 ]
 
 [[package]]
@@ -3278,7 +3281,7 @@ dependencies = [
  "prost-build",
  "rand 0.7.3",
  "sha2 0.9.2",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "unsigned-varint",
  "wasm-timer",
 ]
@@ -3295,15 +3298,15 @@ dependencies = [
  "log",
  "prost",
  "prost-build",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "wasm-timer",
 ]
 
 [[package]]
 name = "libp2p-kad"
-version = "0.27.0"
+version = "0.27.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a226956b49438a10f3206480b8faf5e61fc445c349ea9d9cc37766a83745fa9a"
+checksum = "bfe68563ee33f3848293919afd61470ebcdea4e757a36cc2c33a5508abec2216"
 dependencies = [
  "arrayvec 0.5.2",
  "bytes 0.5.6",
@@ -3318,7 +3321,7 @@ dependencies = [
  "prost-build",
  "rand 0.7.3",
  "sha2 0.9.2",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "uint 0.8.5",
  "unsigned-varint",
  "void",
@@ -3341,7 +3344,7 @@ dependencies = [
  "libp2p-swarm",
  "log",
  "rand 0.7.3",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "socket2",
  "void",
 ]
@@ -3360,7 +3363,7 @@ dependencies = [
  "nohash-hasher",
  "parking_lot 0.11.1",
  "rand 0.7.3",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "unsigned-varint",
 ]
 
@@ -3371,7 +3374,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0580e0d18019d254c9c349c03ff7b22e564b6f2ada70c045fc39738e144f2139"
 dependencies = [
  "bytes 0.5.6",
- "curve25519-dalek 3.0.0",
+ "curve25519-dalek 3.0.2",
  "futures 0.3.9",
  "lazy_static",
  "libp2p-core",
@@ -3426,7 +3429,7 @@ checksum = "6ce3374f3b28162db9d3442c9347c4f14cb01e8290052615c7d341d40eae0599"
 dependencies = [
  "futures 0.3.9",
  "log",
- "pin-project 1.0.3",
+ "pin-project 1.0.4",
  "rand 0.7.3",
  "salsa20",
  "sha3",
@@ -3447,7 +3450,7 @@ dependencies = [
  "lru",
  "minicbor",
  "rand 0.7.3",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "unsigned-varint",
  "wasm-timer",
 ]
@@ -3463,7 +3466,7 @@ dependencies = [
  "libp2p-core",
  "log",
  "rand 0.7.3",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "void",
  "wasm-timer",
 ]
@@ -3584,9 +3587,9 @@ dependencies = [
 
 [[package]]
 name = "linked-hash-map"
-version = "0.5.3"
+version = "0.5.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8dd5a6d5999d9907cda8ed67bbd137d3af8085216c2ac62de5be860bd41f304a"
+checksum = "7fb9b38af92608140b86b693604b9ffcc5824240a484d1ecd4795bacb2fe88f3"
 
 [[package]]
 name = "linked_hash_set"
@@ -3648,24 +3651,11 @@ dependencies = [
 
 [[package]]
 name = "log"
-version = "0.4.11"
+version = "0.4.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4fabed175da42fed1fa0746b0ea71f412aa9d35e76e95e59b192c64b9dc2bf8b"
+checksum = "fcf3805d4480bb5b86070dcfeb9e2cb2ebc148adb753c5cca5f884d1d65a42b2"
 dependencies = [
  "cfg-if 0.1.10",
-]
-
-[[package]]
-name = "loom"
-version = "0.3.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a0e8460f2f2121162705187214720353c517b97bdfb3494c0b1e33d83ebe4bed"
-dependencies = [
- "cfg-if 0.1.10",
- "generator",
- "scoped-tls",
- "serde",
- "serde_json",
 ]
 
 [[package]]
@@ -3802,9 +3792,9 @@ dependencies = [
 
 [[package]]
 name = "mick-jaeger"
-version = "0.1.2"
+version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4247b181b96e62eacb5a1e7a2f1a39a78b945cb0434c0fceaae4ed1882555957"
+checksum = "c023c3f16109e7f33aa451f773fd61070e265b4977d0b6e344a51049296dd7df"
 dependencies = [
  "futures 0.3.9",
  "rand 0.7.3",
@@ -3965,8 +3955,8 @@ dependencies = [
  "bytes 0.5.6",
  "futures 0.3.9",
  "log",
- "pin-project 1.0.3",
- "smallvec 1.6.0",
+ "pin-project 1.0.4",
+ "smallvec 1.6.1",
  "unsigned-varint",
 ]
 
@@ -4215,8 +4205,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-authority-discovery"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4231,8 +4221,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-authorship"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4246,8 +4236,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-babe"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4271,8 +4261,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-balances"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4286,7 +4276,7 @@ dependencies = [
 [[package]]
 name = "pallet-bounties"
 version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4299,8 +4289,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-collective"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4314,8 +4304,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-contracts"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4335,8 +4325,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-contracts-primitives"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "bitflags",
  "parity-scale-codec",
@@ -4347,7 +4337,7 @@ dependencies = [
 [[package]]
 name = "pallet-contracts-proc-macro"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "proc-macro2 1.0.24",
  "quote 1.0.8",
@@ -4356,8 +4346,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-contracts-rpc-runtime-api"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "pallet-contracts-primitives",
  "parity-scale-codec",
@@ -4368,8 +4358,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-democracy"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4383,8 +4373,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-elections-phragmen"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4397,8 +4387,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-grandpa"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4418,8 +4408,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-identity"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "enumflags2",
  "frame-benchmarking",
@@ -4434,8 +4424,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-im-online"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4453,8 +4443,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-indices"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4469,8 +4459,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-membership"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4483,8 +4473,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-multisig"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4498,8 +4488,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-nicks"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4512,8 +4502,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-offences"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4528,7 +4518,7 @@ dependencies = [
 [[package]]
 name = "pallet-proxy"
 version = "2.0.1"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4542,8 +4532,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-randomness-collective-flip"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4555,8 +4545,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-recovery"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "enumflags2",
  "frame-support",
@@ -4570,8 +4560,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-scheduler"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4585,8 +4575,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-session"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4605,8 +4595,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-society"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4619,8 +4609,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-staking"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4639,8 +4629,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-staking-reward-curve"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "proc-macro-crate",
  "proc-macro2 1.0.24",
@@ -4650,8 +4640,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-sudo"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4664,8 +4654,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-timestamp"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4682,7 +4672,7 @@ dependencies = [
 [[package]]
 name = "pallet-tips"
 version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4695,15 +4685,15 @@ dependencies = [
 
 [[package]]
 name = "pallet-transaction-payment"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
  "pallet-transaction-payment-rpc-runtime-api",
  "parity-scale-codec",
  "serde",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "sp-core",
  "sp-io",
  "sp-runtime",
@@ -4712,8 +4702,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-transaction-payment-rpc"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "jsonrpc-core",
  "jsonrpc-core-client",
@@ -4730,8 +4720,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-transaction-payment-rpc-runtime-api"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "parity-scale-codec",
@@ -4743,8 +4733,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-treasury"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4758,8 +4748,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-utility"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4773,8 +4763,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-vesting"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "enumflags2",
  "frame-support",
@@ -4812,9 +4802,9 @@ dependencies = [
 
 [[package]]
 name = "parity-multiaddr"
-version = "0.10.0"
+version = "0.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2f51a30667591b14f96068b2d12f1306d07a41ebd98239d194356d4d9707ac16"
+checksum = "180cd097078b337d2ba6400c6a67b181b38b611273cb1d8d12f3d8d5d8eaaacb"
 dependencies = [
  "arrayref",
  "bs58",
@@ -4830,9 +4820,9 @@ dependencies = [
 
 [[package]]
 name = "parity-scale-codec"
-version = "1.3.5"
+version = "1.3.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7c740e5fbcb6847058b40ac7e5574766c6388f585e184d769910fe0d3a2ca861"
+checksum = "79602888a81ace83e3d1d4b2873286c1f5f906c84db667594e8db8da3506c383"
 dependencies = [
  "arrayvec 0.5.2",
  "bitvec",
@@ -4890,7 +4880,7 @@ dependencies = [
  "parity-util-mem-derive",
  "parking_lot 0.11.1",
  "primitive-types",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "winapi 0.3.9",
 ]
 
@@ -4995,7 +4985,7 @@ dependencies = [
  "libc",
  "rand 0.6.5",
  "rustc_version",
- "smallvec 0.6.13",
+ "smallvec 0.6.14",
  "winapi 0.3.9",
 ]
 
@@ -5008,9 +4998,9 @@ dependencies = [
  "cfg-if 0.1.10",
  "cloudabi",
  "libc",
- "redox_syscall",
+ "redox_syscall 0.1.57",
  "rustc_version",
- "smallvec 0.6.13",
+ "smallvec 0.6.14",
  "winapi 0.3.9",
 ]
 
@@ -5023,8 +5013,8 @@ dependencies = [
  "cfg-if 0.1.10",
  "cloudabi",
  "libc",
- "redox_syscall",
- "smallvec 1.6.0",
+ "redox_syscall 0.1.57",
+ "smallvec 1.6.1",
  "winapi 0.3.9",
 ]
 
@@ -5037,8 +5027,8 @@ dependencies = [
  "cfg-if 1.0.0",
  "instant",
  "libc",
- "redox_syscall",
- "smallvec 1.6.0",
+ "redox_syscall 0.1.57",
+ "smallvec 1.6.1",
  "winapi 0.3.9",
 ]
 
@@ -5168,11 +5158,11 @@ dependencies = [
 
 [[package]]
 name = "pin-project"
-version = "1.0.3"
+version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5a83804639aad6ba65345661744708855f9fbcb71176ea8d28d05aeb11d975e7"
+checksum = "95b70b68509f17aa2857863b6fa00bf21fc93674c7a8893de2f469f6aa7ca2f2"
 dependencies = [
- "pin-project-internal 1.0.3",
+ "pin-project-internal 1.0.4",
 ]
 
 [[package]]
@@ -5188,9 +5178,9 @@ dependencies = [
 
 [[package]]
 name = "pin-project-internal"
-version = "1.0.3"
+version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b7bcc46b8f73443d15bc1c5fecbb315718491fa9187fa483f0e359323cde8b3a"
+checksum = "caa25a6393f22ce819b0f50e0be89287292fda8d425be38ee0ca14c4931d9e71"
 dependencies = [
  "proc-macro2 1.0.24",
  "quote 1.0.8",
@@ -5205,9 +5195,9 @@ checksum = "c917123afa01924fc84bb20c4c03f004d9c38e5127e3c039bbf7f4b9c76a2f6b"
 
 [[package]]
 name = "pin-project-lite"
-version = "0.2.0"
+version = "0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6b063f57ec186e6140e2b8b6921e5f1bd89c7356dda5b33acc5401203ca6131c"
+checksum = "439697af366c49a6d0a010c56a0d97685bc140ce0d377b13a2ea2aa42d64a827"
 
 [[package]]
 name = "pin-utils"
@@ -5230,7 +5220,7 @@ checksum = "feb3b2b1033b8a60b4da6ee470325f887758c95d5320f52f9ce0df055a55940e"
 [[package]]
 name = "polkadot-availability-bitfield-distribution"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "futures 0.3.9",
  "parity-scale-codec",
@@ -5245,7 +5235,7 @@ dependencies = [
 [[package]]
 name = "polkadot-availability-distribution"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "futures 0.3.9",
  "parity-scale-codec",
@@ -5264,7 +5254,7 @@ dependencies = [
 [[package]]
 name = "polkadot-cli"
 version = "0.8.27"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "frame-benchmarking-cli",
  "log",
@@ -5283,7 +5273,7 @@ dependencies = [
 [[package]]
 name = "polkadot-collator-protocol"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "futures 0.3.9",
  "polkadot-node-network-protocol",
@@ -5298,7 +5288,7 @@ dependencies = [
 [[package]]
 name = "polkadot-core-primitives"
 version = "0.7.30"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "parity-scale-codec",
  "sp-core",
@@ -5309,7 +5299,7 @@ dependencies = [
 [[package]]
 name = "polkadot-erasure-coding"
 version = "0.8.27"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "parity-scale-codec",
  "polkadot-primitives",
@@ -5322,7 +5312,7 @@ dependencies = [
 [[package]]
 name = "polkadot-network-bridge"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "async-trait",
  "futures 0.3.9",
@@ -5339,7 +5329,7 @@ dependencies = [
 [[package]]
 name = "polkadot-node-collation-generation"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "futures 0.3.9",
  "polkadot-erasure-coding",
@@ -5356,8 +5346,9 @@ dependencies = [
 [[package]]
 name = "polkadot-node-core-av-store"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
+ "bitvec",
  "futures 0.3.9",
  "futures-timer 3.0.2",
  "kvdb",
@@ -5377,7 +5368,7 @@ dependencies = [
 [[package]]
 name = "polkadot-node-core-backing"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "bitvec",
  "futures 0.3.9",
@@ -5396,7 +5387,7 @@ dependencies = [
 [[package]]
 name = "polkadot-node-core-bitfield-signing"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "futures 0.3.9",
  "polkadot-node-subsystem",
@@ -5412,7 +5403,7 @@ dependencies = [
 [[package]]
 name = "polkadot-node-core-candidate-selection"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "futures 0.3.9",
  "polkadot-node-subsystem",
@@ -5427,7 +5418,7 @@ dependencies = [
 [[package]]
 name = "polkadot-node-core-candidate-validation"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "futures 0.3.9",
  "parity-scale-codec",
@@ -5444,7 +5435,7 @@ dependencies = [
 [[package]]
 name = "polkadot-node-core-chain-api"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "futures 0.3.9",
  "polkadot-node-subsystem",
@@ -5458,7 +5449,7 @@ dependencies = [
 [[package]]
 name = "polkadot-node-core-proposer"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "futures 0.3.9",
  "futures-timer 3.0.2",
@@ -5482,7 +5473,7 @@ dependencies = [
 [[package]]
 name = "polkadot-node-core-provisioner"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "bitvec",
  "futures 0.3.9",
@@ -5498,7 +5489,7 @@ dependencies = [
 [[package]]
 name = "polkadot-node-core-runtime-api"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "futures 0.3.9",
  "polkadot-node-subsystem",
@@ -5513,7 +5504,7 @@ dependencies = [
 [[package]]
 name = "polkadot-node-jaeger"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "async-std",
  "lazy_static",
@@ -5529,7 +5520,7 @@ dependencies = [
 [[package]]
 name = "polkadot-node-network-protocol"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "parity-scale-codec",
  "polkadot-node-jaeger",
@@ -5541,7 +5532,7 @@ dependencies = [
 [[package]]
 name = "polkadot-node-primitives"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "futures 0.3.9",
  "parity-scale-codec",
@@ -5555,7 +5546,7 @@ dependencies = [
 [[package]]
 name = "polkadot-node-subsystem"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "async-std",
  "async-trait",
@@ -5567,14 +5558,14 @@ dependencies = [
  "mick-jaeger",
  "parity-scale-codec",
  "parking_lot 0.11.1",
- "pin-project 1.0.3",
+ "pin-project 1.0.4",
  "polkadot-node-jaeger",
  "polkadot-node-network-protocol",
  "polkadot-node-primitives",
  "polkadot-primitives",
  "polkadot-statement-table",
  "sc-network",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "sp-core",
  "substrate-prometheus-endpoint",
  "thiserror",
@@ -5585,21 +5576,21 @@ dependencies = [
 [[package]]
 name = "polkadot-node-subsystem-test-helpers"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "async-trait",
  "futures 0.3.9",
  "futures-timer 3.0.2",
  "parity-scale-codec",
  "parking_lot 0.11.1",
- "pin-project 1.0.3",
+ "pin-project 1.0.4",
  "polkadot-node-primitives",
  "polkadot-node-subsystem",
  "polkadot-node-subsystem-util",
  "polkadot-primitives",
  "polkadot-statement-table",
  "sc-network",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "sp-core",
  "tracing",
  "tracing-futures",
@@ -5608,13 +5599,13 @@ dependencies = [
 [[package]]
 name = "polkadot-node-subsystem-util"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "async-trait",
  "futures 0.3.9",
  "futures-timer 3.0.2",
  "parity-scale-codec",
- "pin-project 1.0.3",
+ "pin-project 1.0.4",
  "polkadot-node-jaeger",
  "polkadot-node-primitives",
  "polkadot-node-subsystem",
@@ -5633,7 +5624,7 @@ dependencies = [
 [[package]]
 name = "polkadot-overseer"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "async-trait",
  "futures 0.3.9",
@@ -5644,7 +5635,6 @@ dependencies = [
  "polkadot-node-subsystem-util",
  "polkadot-primitives",
  "sc-client-api",
- "streamunordered",
  "tracing",
  "tracing-futures",
 ]
@@ -5652,7 +5642,7 @@ dependencies = [
 [[package]]
 name = "polkadot-parachain"
 version = "0.8.27"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "derive_more 0.99.11",
  "futures 0.3.9",
@@ -5675,7 +5665,7 @@ dependencies = [
 [[package]]
 name = "polkadot-pov-distribution"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "futures 0.3.9",
  "polkadot-node-network-protocol",
@@ -5690,7 +5680,7 @@ dependencies = [
 [[package]]
 name = "polkadot-primitives"
 version = "0.8.27"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "bitvec",
  "frame-system",
@@ -5717,7 +5707,7 @@ dependencies = [
 [[package]]
 name = "polkadot-rpc"
 version = "0.8.27"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "jsonrpc-core",
  "pallet-transaction-payment-rpc",
@@ -5747,7 +5737,7 @@ dependencies = [
 [[package]]
 name = "polkadot-runtime"
 version = "0.8.27"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "bitvec",
  "frame-executive",
@@ -5790,7 +5780,7 @@ dependencies = [
  "rustc-hex",
  "serde",
  "serde_derive",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "sp-api",
  "sp-authority-discovery",
  "sp-block-builder",
@@ -5812,7 +5802,7 @@ dependencies = [
 [[package]]
 name = "polkadot-runtime-common"
 version = "0.8.27"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "bitvec",
  "frame-support",
@@ -5848,7 +5838,7 @@ dependencies = [
 [[package]]
 name = "polkadot-runtime-parachains"
 version = "0.8.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "bitvec",
  "derive_more 0.99.11",
@@ -5885,7 +5875,7 @@ dependencies = [
 [[package]]
 name = "polkadot-service"
 version = "0.8.3"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "frame-benchmarking",
  "frame-system-rpc-runtime-api",
@@ -5964,7 +5954,7 @@ dependencies = [
 [[package]]
 name = "polkadot-statement-distribution"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "arrayvec 0.5.2",
  "futures 0.3.9",
@@ -5982,7 +5972,7 @@ dependencies = [
 [[package]]
 name = "polkadot-statement-table"
 version = "0.8.27"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "parity-scale-codec",
  "polkadot-primitives",
@@ -5992,7 +5982,7 @@ dependencies = [
 [[package]]
 name = "polkadot-test-client"
 version = "0.8.27"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "parity-scale-codec",
  "polkadot-node-subsystem",
@@ -6016,7 +6006,7 @@ dependencies = [
 [[package]]
 name = "polkadot-test-runtime"
 version = "0.8.27"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "bitvec",
  "frame-executive",
@@ -6049,7 +6039,7 @@ dependencies = [
  "rustc-hex",
  "serde",
  "serde_derive",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "sp-api",
  "sp-authority-discovery",
  "sp-block-builder",
@@ -6070,7 +6060,7 @@ dependencies = [
 [[package]]
 name = "polkadot-test-service"
 version = "0.8.27"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "frame-benchmarking",
  "frame-system",
@@ -6122,7 +6112,7 @@ dependencies = [
 [[package]]
 name = "polkadot-validation"
 version = "0.8.27"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "futures 0.3.9",
  "log",
@@ -6709,13 +6699,22 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "41cc0f7e4d5d4544e8861606a285bb08d3e70712ccc7d2b84d7c0ccfaf4b05ce"
 
 [[package]]
+name = "redox_syscall"
+version = "0.2.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "05ec8ca9416c5ea37062b502703cd7fcb207736bc294f6e0cf367ac6fc234570"
+dependencies = [
+ "bitflags",
+]
+
+[[package]]
 name = "redox_users"
 version = "0.3.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "de0737333e7a9502c789a36d7c7fa6092a49895d4faa31ca5df163857ded2e9d"
 dependencies = [
  "getrandom 0.1.16",
- "redox_syscall",
+ "redox_syscall 0.1.57",
  "rust-argon2",
 ]
 
@@ -6725,7 +6724,7 @@ version = "4.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a415a013dd7c5d4221382329a5a3482566da675737494935cbbbcdec04662f9d"
 dependencies = [
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
 ]
 
 [[package]]
@@ -6756,14 +6755,14 @@ checksum = "b9ba8aaf5fe7cf307c6dbdaeed85478961d29e25e3bee5169e11b92fa9f027a8"
 dependencies = [
  "log",
  "rustc-hash",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
 ]
 
 [[package]]
 name = "regex"
-version = "1.4.2"
+version = "1.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "38cf2c13ed4745de91a5eb834e11c00bcc3709e773173b2ce4c56c9fbde04b9c"
+checksum = "d9251239e129e16308e70d853559389de218ac275b515068abc96829d05b948a"
 dependencies = [
  "aho-corasick",
  "memchr",
@@ -6783,9 +6782,9 @@ dependencies = [
 
 [[package]]
 name = "regex-syntax"
-version = "0.6.21"
+version = "0.6.22"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3b181ba2dcf07aaccad5448e8ead58db5b742cf85dfe035e2227f137a539a189"
+checksum = "b5eb417147ba9860a96cfe72a0b93bf88fee1744b5636ec99ab20c1aa9376581"
 
 [[package]]
 name = "region"
@@ -6917,12 +6916,13 @@ dependencies = [
 [[package]]
 name = "rococo-runtime"
 version = "0.8.27"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "frame-executive",
  "frame-support",
  "frame-system",
  "frame-system-rpc-runtime-api",
+ "hex-literal 0.3.1",
  "pallet-authority-discovery",
  "pallet-authorship",
  "pallet-babe",
@@ -6945,7 +6945,7 @@ dependencies = [
  "polkadot-runtime-parachains",
  "serde",
  "serde_derive",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "sp-api",
  "sp-authority-discovery",
  "sp-block-builder",
@@ -7105,8 +7105,8 @@ dependencies = [
 
 [[package]]
 name = "sc-authority-discovery"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "async-trait",
  "derive_more 0.99.11",
@@ -7133,8 +7133,8 @@ dependencies = [
 
 [[package]]
 name = "sc-basic-authorship"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "futures 0.3.9",
  "futures-timer 3.0.2",
@@ -7156,8 +7156,8 @@ dependencies = [
 
 [[package]]
 name = "sc-block-builder"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "parity-scale-codec",
  "sc-client-api",
@@ -7173,8 +7173,8 @@ dependencies = [
 
 [[package]]
 name = "sc-chain-spec"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "impl-trait-for-tuples 0.2.0",
  "parity-scale-codec",
@@ -7194,8 +7194,8 @@ dependencies = [
 
 [[package]]
 name = "sc-chain-spec-derive"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "proc-macro-crate",
  "proc-macro2 1.0.24",
@@ -7205,8 +7205,8 @@ dependencies = [
 
 [[package]]
 name = "sc-cli"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "atty",
  "chrono",
@@ -7249,7 +7249,7 @@ dependencies = [
 [[package]]
 name = "sc-cli-proc-macro"
 version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "proc-macro-crate",
  "proc-macro2 1.0.24",
@@ -7259,8 +7259,8 @@ dependencies = [
 
 [[package]]
 name = "sc-client-api"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "derive_more 0.99.11",
  "fnv",
@@ -7293,8 +7293,8 @@ dependencies = [
 
 [[package]]
 name = "sc-client-db"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "blake2-rfc",
  "hash-db",
@@ -7323,8 +7323,8 @@ dependencies = [
 
 [[package]]
 name = "sc-consensus"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "sc-client-api",
  "sp-blockchain",
@@ -7334,8 +7334,8 @@ dependencies = [
 
 [[package]]
 name = "sc-consensus-babe"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "derive_more 0.99.11",
  "fork-tree",
@@ -7379,8 +7379,8 @@ dependencies = [
 
 [[package]]
 name = "sc-consensus-babe-rpc"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "derive_more 0.99.11",
  "futures 0.3.9",
@@ -7403,8 +7403,8 @@ dependencies = [
 
 [[package]]
 name = "sc-consensus-epochs"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "fork-tree",
  "parity-scale-codec",
@@ -7416,8 +7416,8 @@ dependencies = [
 
 [[package]]
 name = "sc-consensus-slots"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "futures 0.3.9",
  "futures-timer 3.0.2",
@@ -7442,8 +7442,8 @@ dependencies = [
 
 [[package]]
 name = "sc-consensus-uncles"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "log",
  "sc-client-api",
@@ -7456,8 +7456,8 @@ dependencies = [
 
 [[package]]
 name = "sc-executor"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "derive_more 0.99.11",
  "lazy_static",
@@ -7485,8 +7485,8 @@ dependencies = [
 
 [[package]]
 name = "sc-executor-common"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "derive_more 0.99.11",
  "parity-scale-codec",
@@ -7501,8 +7501,8 @@ dependencies = [
 
 [[package]]
 name = "sc-executor-wasmi"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "log",
  "parity-scale-codec",
@@ -7516,8 +7516,8 @@ dependencies = [
 
 [[package]]
 name = "sc-executor-wasmtime"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "log",
  "parity-scale-codec",
@@ -7534,8 +7534,8 @@ dependencies = [
 
 [[package]]
 name = "sc-finality-grandpa"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "derive_more 0.99.11",
  "finality-grandpa",
@@ -7571,8 +7571,8 @@ dependencies = [
 
 [[package]]
 name = "sc-finality-grandpa-rpc"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "derive_more 0.99.11",
  "finality-grandpa",
@@ -7595,8 +7595,8 @@ dependencies = [
 
 [[package]]
 name = "sc-informant"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "ansi_term 0.12.1",
  "futures 0.3.9",
@@ -7613,8 +7613,8 @@ dependencies = [
 
 [[package]]
 name = "sc-keystore"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "async-trait",
  "derive_more 0.99.11",
@@ -7633,8 +7633,8 @@ dependencies = [
 
 [[package]]
 name = "sc-light"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "hash-db",
  "lazy_static",
@@ -7652,8 +7652,8 @@ dependencies = [
 
 [[package]]
 name = "sc-network"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "async-std",
  "async-trait",
@@ -7688,7 +7688,7 @@ dependencies = [
  "serde_json",
  "slog",
  "slog_derive",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "sp-arithmetic",
  "sp-blockchain",
  "sp-consensus",
@@ -7705,8 +7705,8 @@ dependencies = [
 
 [[package]]
 name = "sc-network-gossip"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "futures 0.3.9",
  "futures-timer 3.0.2",
@@ -7720,8 +7720,8 @@ dependencies = [
 
 [[package]]
 name = "sc-offchain"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "bytes 0.5.6",
  "fnv",
@@ -7747,8 +7747,8 @@ dependencies = [
 
 [[package]]
 name = "sc-peerset"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "futures 0.3.9",
  "libp2p",
@@ -7760,8 +7760,8 @@ dependencies = [
 
 [[package]]
 name = "sc-proposer-metrics"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "log",
  "substrate-prometheus-endpoint",
@@ -7769,8 +7769,8 @@ dependencies = [
 
 [[package]]
 name = "sc-rpc"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "futures 0.3.9",
  "hash-db",
@@ -7803,8 +7803,8 @@ dependencies = [
 
 [[package]]
 name = "sc-rpc-api"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "derive_more 0.99.11",
  "futures 0.3.9",
@@ -7827,8 +7827,8 @@ dependencies = [
 
 [[package]]
 name = "sc-rpc-server"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "futures 0.1.30",
  "jsonrpc-core",
@@ -7845,8 +7845,8 @@ dependencies = [
 
 [[package]]
 name = "sc-service"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "directories 3.0.1",
  "exit-future 0.2.0",
@@ -7909,8 +7909,8 @@ dependencies = [
 
 [[package]]
 name = "sc-state-db"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "log",
  "parity-scale-codec",
@@ -7925,7 +7925,7 @@ dependencies = [
 [[package]]
 name = "sc-sync-state-rpc"
 version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "jsonrpc-core",
  "jsonrpc-core-client",
@@ -7944,8 +7944,8 @@ dependencies = [
 
 [[package]]
 name = "sc-telemetry"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "futures 0.3.9",
  "futures-timer 3.0.2",
@@ -7965,8 +7965,8 @@ dependencies = [
 
 [[package]]
 name = "sc-tracing"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "ansi_term 0.12.1",
  "erased-serde",
@@ -7989,8 +7989,8 @@ dependencies = [
 
 [[package]]
 name = "sc-transaction-graph"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "derive_more 0.99.11",
  "futures 0.3.9",
@@ -8011,8 +8011,8 @@ dependencies = [
 
 [[package]]
 name = "sc-transaction-pool"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "futures 0.3.9",
  "futures-diagnose",
@@ -8053,7 +8053,7 @@ checksum = "021b403afe70d81eea68f6ea12f6b3c9588e5d536a94c3bf80f15e7faa267862"
 dependencies = [
  "arrayref",
  "arrayvec 0.5.2",
- "curve25519-dalek 2.1.0",
+ "curve25519-dalek 2.1.2",
  "getrandom 0.1.16",
  "merlin",
  "rand 0.7.3",
@@ -8168,7 +8168,7 @@ version = "0.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f301af10236f6df4160f7c3f04eec6dbc70ace82d23326abad5edee88801c6b6"
 dependencies = [
- "semver-parser 0.10.0",
+ "semver-parser 0.10.2",
  "serde",
 ]
 
@@ -8180,28 +8180,27 @@ checksum = "388a1df253eca08550bef6c72392cfe7c30914bf41df5269b68cbd6ff8f570a3"
 
 [[package]]
 name = "semver-parser"
-version = "0.10.0"
+version = "0.10.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0e012c6c5380fb91897ba7b9261a0f565e624e869d42fe1a1d03fa0d68a083d5"
+checksum = "00b0bef5b7f9e0df16536d3961cfb6e84331c065b4066afb39768d0e319411f7"
 dependencies = [
  "pest",
- "pest_derive",
 ]
 
 [[package]]
 name = "serde"
-version = "1.0.118"
+version = "1.0.119"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "06c64263859d87aa2eb554587e2d23183398d617427327cf2b3d0ed8c69e4800"
+checksum = "9bdd36f49e35b61d49efd8aa7fc068fd295961fd2286d0b2ee9a4c7a14e99cc3"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.118"
+version = "1.0.119"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c84d3526699cd55261af4b941e4e725444df67aa4f9e6a3564f18030d12672df"
+checksum = "552954ce79a059ddd5fd68c271592374bd15cab2274970380c000118aeffe1cd"
 dependencies = [
  "proc-macro2 1.0.24",
  "quote 1.0.8",
@@ -8283,12 +8282,11 @@ dependencies = [
 
 [[package]]
 name = "sharded-slab"
-version = "0.1.0"
+version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7b4921be914e16899a80adefb821f8ddb7974e3f1250223575a44ed994882127"
+checksum = "79c719719ee05df97490f80a45acfc99e5a30ce98a1e4fb67aee422745ae14e3"
 dependencies = [
  "lazy_static",
- "loom",
 ]
 
 [[package]]
@@ -8348,9 +8346,9 @@ dependencies = [
 
 [[package]]
 name = "signature"
-version = "1.2.2"
+version = "1.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "29f060a7d147e33490ec10da418795238fd7545bba241504d6b31a409f2e6210"
+checksum = "0f0242b8e50dd9accdd56170e94ca1ebd223b098eb9c83539a6e367d0f36ae68"
 
 [[package]]
 name = "simba"
@@ -8416,18 +8414,18 @@ dependencies = [
 
 [[package]]
 name = "smallvec"
-version = "0.6.13"
+version = "0.6.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f7b0758c52e15a8b5e3691eae6cc559f08eee9406e548a4477ba4e67770a82b6"
+checksum = "b97fcaeba89edba30f044a10c6a3cc39df9c3f17d7cd829dd1446cab35f890e0"
 dependencies = [
  "maybe-uninit",
 ]
 
 [[package]]
 name = "smallvec"
-version = "1.6.0"
+version = "1.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1a55ca5f3b68e41c979bf8c46a6f1da892ca4db8f94023ce0bd32407573b1ac0"
+checksum = "fe0f37c9e8f3c5a4a66ad655a93c74daac4ad00c441533bf5c6e7990bb42604e"
 
 [[package]]
 name = "snow"
@@ -8476,8 +8474,8 @@ dependencies = [
 
 [[package]]
 name = "sp-allocator"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "log",
  "sp-core",
@@ -8488,8 +8486,8 @@ dependencies = [
 
 [[package]]
 name = "sp-api"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "hash-db",
  "parity-scale-codec",
@@ -8504,8 +8502,8 @@ dependencies = [
 
 [[package]]
 name = "sp-api-proc-macro"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "blake2-rfc",
  "proc-macro-crate",
@@ -8516,8 +8514,8 @@ dependencies = [
 
 [[package]]
 name = "sp-application-crypto"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "parity-scale-codec",
  "serde",
@@ -8528,8 +8526,8 @@ dependencies = [
 
 [[package]]
 name = "sp-arithmetic"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "integer-sqrt",
  "num-traits 0.2.14",
@@ -8541,8 +8539,8 @@ dependencies = [
 
 [[package]]
 name = "sp-authority-discovery"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "parity-scale-codec",
  "sp-api",
@@ -8553,8 +8551,8 @@ dependencies = [
 
 [[package]]
 name = "sp-authorship"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "parity-scale-codec",
  "sp-inherents",
@@ -8564,8 +8562,8 @@ dependencies = [
 
 [[package]]
 name = "sp-block-builder"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "parity-scale-codec",
  "sp-api",
@@ -8576,8 +8574,8 @@ dependencies = [
 
 [[package]]
 name = "sp-blockchain"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "futures 0.3.9",
  "log",
@@ -8594,8 +8592,8 @@ dependencies = [
 
 [[package]]
 name = "sp-chain-spec"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "serde",
  "serde_json",
@@ -8603,8 +8601,8 @@ dependencies = [
 
 [[package]]
 name = "sp-consensus"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "futures 0.3.9",
  "futures-timer 3.0.2",
@@ -8629,8 +8627,8 @@ dependencies = [
 
 [[package]]
 name = "sp-consensus-aura"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "parity-scale-codec",
  "sp-api",
@@ -8643,8 +8641,8 @@ dependencies = [
 
 [[package]]
 name = "sp-consensus-babe"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "merlin",
  "parity-scale-codec",
@@ -8663,8 +8661,8 @@ dependencies = [
 
 [[package]]
 name = "sp-consensus-slots"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "parity-scale-codec",
  "sp-runtime",
@@ -8672,8 +8670,8 @@ dependencies = [
 
 [[package]]
 name = "sp-consensus-vrf"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "parity-scale-codec",
  "schnorrkel",
@@ -8684,8 +8682,8 @@ dependencies = [
 
 [[package]]
 name = "sp-core"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "base58",
  "blake2-rfc",
@@ -8711,7 +8709,7 @@ dependencies = [
  "schnorrkel",
  "secrecy",
  "serde",
- "sha2 0.8.2",
+ "sha2 0.9.2",
  "sp-debug-derive",
  "sp-externalities",
  "sp-runtime-interface",
@@ -8728,8 +8726,8 @@ dependencies = [
 
 [[package]]
 name = "sp-database"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "kvdb",
  "parking_lot 0.11.1",
@@ -8737,8 +8735,8 @@ dependencies = [
 
 [[package]]
 name = "sp-debug-derive"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "proc-macro2 1.0.24",
  "quote 1.0.8",
@@ -8747,8 +8745,8 @@ dependencies = [
 
 [[package]]
 name = "sp-externalities"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "environmental",
  "parity-scale-codec",
@@ -8758,8 +8756,8 @@ dependencies = [
 
 [[package]]
 name = "sp-finality-grandpa"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "finality-grandpa",
  "log",
@@ -8775,8 +8773,8 @@ dependencies = [
 
 [[package]]
 name = "sp-inherents"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "parity-scale-codec",
  "parking_lot 0.11.1",
@@ -8787,8 +8785,8 @@ dependencies = [
 
 [[package]]
 name = "sp-io"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "futures 0.3.9",
  "hash-db",
@@ -8811,8 +8809,8 @@ dependencies = [
 
 [[package]]
 name = "sp-keyring"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "lazy_static",
  "sp-core",
@@ -8823,7 +8821,7 @@ dependencies = [
 [[package]]
 name = "sp-keystore"
 version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "async-trait",
  "derive_more 0.99.11",
@@ -8839,8 +8837,8 @@ dependencies = [
 
 [[package]]
 name = "sp-npos-elections"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "parity-scale-codec",
  "serde",
@@ -8851,8 +8849,8 @@ dependencies = [
 
 [[package]]
 name = "sp-npos-elections-compact"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "proc-macro-crate",
  "proc-macro2 1.0.24",
@@ -8862,8 +8860,8 @@ dependencies = [
 
 [[package]]
 name = "sp-offchain"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "sp-api",
  "sp-core",
@@ -8872,16 +8870,16 @@ dependencies = [
 
 [[package]]
 name = "sp-panic-handler"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "backtrace",
 ]
 
 [[package]]
 name = "sp-rpc"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "serde",
  "sp-core",
@@ -8889,8 +8887,8 @@ dependencies = [
 
 [[package]]
 name = "sp-runtime"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "either",
  "hash256-std-hasher",
@@ -8910,8 +8908,8 @@ dependencies = [
 
 [[package]]
 name = "sp-runtime-interface"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "impl-trait-for-tuples 0.2.0",
  "parity-scale-codec",
@@ -8927,8 +8925,8 @@ dependencies = [
 
 [[package]]
 name = "sp-runtime-interface-proc-macro"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "Inflector",
  "proc-macro-crate",
@@ -8939,8 +8937,8 @@ dependencies = [
 
 [[package]]
 name = "sp-sandbox"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "parity-scale-codec",
  "sp-core",
@@ -8952,8 +8950,8 @@ dependencies = [
 
 [[package]]
 name = "sp-serializer"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "serde",
  "serde_json",
@@ -8961,8 +8959,8 @@ dependencies = [
 
 [[package]]
 name = "sp-session"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "parity-scale-codec",
  "sp-api",
@@ -8974,8 +8972,8 @@ dependencies = [
 
 [[package]]
 name = "sp-staking"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "parity-scale-codec",
  "sp-runtime",
@@ -8984,8 +8982,8 @@ dependencies = [
 
 [[package]]
 name = "sp-state-machine"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "hash-db",
  "log",
@@ -8993,7 +8991,7 @@ dependencies = [
  "parity-scale-codec",
  "parking_lot 0.11.1",
  "rand 0.7.3",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "sp-core",
  "sp-externalities",
  "sp-panic-handler",
@@ -9006,13 +9004,13 @@ dependencies = [
 
 [[package]]
 name = "sp-std"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 
 [[package]]
 name = "sp-storage"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "impl-serde",
  "parity-scale-codec",
@@ -9025,7 +9023,7 @@ dependencies = [
 [[package]]
 name = "sp-tasks"
 version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "log",
  "sp-core",
@@ -9038,7 +9036,7 @@ dependencies = [
 [[package]]
 name = "sp-test-primitives"
 version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "parity-scale-codec",
  "parity-util-mem",
@@ -9050,8 +9048,8 @@ dependencies = [
 
 [[package]]
 name = "sp-timestamp"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "impl-trait-for-tuples 0.2.0",
  "parity-scale-codec",
@@ -9064,8 +9062,8 @@ dependencies = [
 
 [[package]]
 name = "sp-tracing"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "log",
  "parity-scale-codec",
@@ -9077,8 +9075,8 @@ dependencies = [
 
 [[package]]
 name = "sp-transaction-pool"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "derive_more 0.99.11",
  "futures 0.3.9",
@@ -9093,8 +9091,8 @@ dependencies = [
 
 [[package]]
 name = "sp-trie"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "hash-db",
  "memory-db",
@@ -9107,8 +9105,8 @@ dependencies = [
 
 [[package]]
 name = "sp-utils"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "futures 0.3.9",
  "futures-core",
@@ -9119,8 +9117,8 @@ dependencies = [
 
 [[package]]
 name = "sp-version"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "impl-serde",
  "parity-scale-codec",
@@ -9131,8 +9129,8 @@ dependencies = [
 
 [[package]]
 name = "sp-wasm-interface"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "impl-trait-for-tuples 0.2.0",
  "parity-scale-codec",
@@ -9264,16 +9262,16 @@ dependencies = [
 
 [[package]]
 name = "substrate-build-script-utils"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "platforms",
 ]
 
 [[package]]
 name = "substrate-frame-rpc-system"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "frame-system-rpc-runtime-api",
  "futures 0.3.9",
@@ -9295,8 +9293,8 @@ dependencies = [
 
 [[package]]
 name = "substrate-prometheus-endpoint"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "async-std",
  "derive_more 0.99.11",
@@ -9309,8 +9307,8 @@ dependencies = [
 
 [[package]]
 name = "substrate-test-client"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "futures 0.1.30",
  "futures 0.3.9",
@@ -9337,7 +9335,7 @@ dependencies = [
 [[package]]
 name = "substrate-test-runtime"
 version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "cfg-if 0.1.10",
  "frame-executive",
@@ -9372,14 +9370,14 @@ dependencies = [
  "sp-transaction-pool",
  "sp-trie",
  "sp-version",
- "substrate-wasm-builder 3.0.0 (git+https://github.com/paritytech/substrate)",
+ "substrate-wasm-builder 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
  "trie-db",
 ]
 
 [[package]]
 name = "substrate-test-runtime-client"
 version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "futures 0.3.9",
  "parity-scale-codec",
@@ -9399,8 +9397,8 @@ dependencies = [
 
 [[package]]
 name = "substrate-test-utils"
-version = "2.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "2.0.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "futures 0.3.9",
  "substrate-test-utils-derive",
@@ -9409,8 +9407,8 @@ dependencies = [
 
 [[package]]
 name = "substrate-test-utils-derive"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+version = "0.8.1"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "proc-macro-crate",
  "quote 1.0.8",
@@ -9436,7 +9434,7 @@ dependencies = [
 [[package]]
 name = "substrate-wasm-builder"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=master#712085115cdef4a79a66747338c920d6ba4e479f"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#ecb85f764fa68dcf89dbf01e50567420f8605524"
 dependencies = [
  "ansi_term 0.12.1",
  "atty",
@@ -9508,14 +9506,14 @@ checksum = "ab0e7238dcc7b40a7be719a25365910f6807bd864f4cce6b2e6b873658e2b19d"
 
 [[package]]
 name = "tempfile"
-version = "3.1.0"
+version = "3.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7a6e24d9338a0a5be79593e2fa15a648add6138caa803e2d5bc782c371732ca9"
+checksum = "dac1c663cfc93810f88aed9b8941d48cabf856a1b111c29a40439018d870eb22"
 dependencies = [
- "cfg-if 0.1.10",
+ "cfg-if 1.0.0",
  "libc",
- "rand 0.7.3",
- "redox_syscall",
+ "rand 0.8.1",
+ "redox_syscall 0.2.4",
  "remove_dir_all",
  "winapi 0.3.9",
 ]
@@ -9571,9 +9569,9 @@ dependencies = [
 
 [[package]]
 name = "thread_local"
-version = "1.0.1"
+version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d40c6d1b69745a6ec6fb1ca717914848da4b44ae29d9b3080cbee91d72a69b14"
+checksum = "bb9bc092d0d51e76b2b19d9d85534ffc9ec2db959a2523cdae0697e2972cd447"
 dependencies = [
  "lazy_static",
 ]
@@ -9602,12 +9600,11 @@ dependencies = [
 
 [[package]]
 name = "time"
-version = "0.1.44"
+version = "0.1.43"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6db9e6914ab8b1ae1c260a4ae7a49b6c5611b40328a735b21862567685e73255"
+checksum = "ca8a50ef2360fbd1eeb0ecd46795a87a19024eb4b53c5dc916ca1fd95fe62438"
 dependencies = [
  "libc",
- "wasi 0.10.0+wasi-snapshot-preview1",
  "winapi 0.3.9",
 ]
 
@@ -9951,7 +9948,7 @@ checksum = "9f47026cdc4080c07e49b37087de021820269d996f581aac150ef9e5583eefe3"
 dependencies = [
  "cfg-if 1.0.0",
  "log",
- "pin-project-lite 0.2.0",
+ "pin-project-lite 0.2.4",
  "tracing-attributes",
  "tracing-core",
 ]
@@ -10021,7 +10018,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sharded-slab",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "thread_local",
  "tracing",
  "tracing-core",
@@ -10045,7 +10042,7 @@ dependencies = [
  "hashbrown",
  "log",
  "rustc-hex",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
 ]
 
 [[package]]
@@ -10306,9 +10303,9 @@ checksum = "cccddf32554fecc6acb585f82a32a72e28b48f8c4c1883ddfeeeaa96f7d8e519"
 
 [[package]]
 name = "wasi"
-version = "0.10.0+wasi-snapshot-preview1"
+version = "0.10.1+wasi-snapshot-preview1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1a143597ca7c7793eff794def352d41792a93c481eb1042423ff7ff72ba2c31f"
+checksum = "93c6c3420963c5c64bca373b25e77acb562081b9bb4dd5bb864187742186cea9"
 
 [[package]]
 name = "wasm-bindgen"
@@ -10451,7 +10448,7 @@ dependencies = [
  "log",
  "region",
  "rustc-demangle",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "target-lexicon",
  "wasmparser 0.59.0",
  "wasmtime-environ",
@@ -10651,7 +10648,7 @@ dependencies = [
 [[package]]
 name = "westend-runtime"
 version = "0.8.27"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "bitvec",
  "frame-executive",
@@ -10696,7 +10693,7 @@ dependencies = [
  "rustc-hex",
  "serde",
  "serde_derive",
- "smallvec 1.6.0",
+ "smallvec 1.6.1",
  "sp-api",
  "sp-authority-discovery",
  "sp-block-builder",
@@ -10783,7 +10780,7 @@ version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bc614d95359fd7afc321b66d2107ede58b246b844cf5d8a0adcca413e439f088"
 dependencies = [
- "curve25519-dalek 3.0.0",
+ "curve25519-dalek 3.0.2",
  "rand_core 0.5.1",
  "zeroize",
 ]
@@ -10791,7 +10788,7 @@ dependencies = [
 [[package]]
 name = "xcm"
 version = "0.8.22"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "parity-scale-codec",
 ]
@@ -10799,7 +10796,7 @@ dependencies = [
 [[package]]
 name = "xcm-builder"
 version = "0.8.22"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "frame-support",
  "parity-scale-codec",
@@ -10815,7 +10812,7 @@ dependencies = [
 [[package]]
 name = "xcm-executor"
 version = "0.8.22"
-source = "git+https://github.com/paritytech/polkadot?branch=master#c59408004db39c25f078e3e1961e640159b1bdda"
+source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#0022f1f7bfd0799c8a45a8a3749ce4e8fc556bed"
 dependencies = [
  "frame-support",
  "impl-trait-for-tuples 0.2.0",
