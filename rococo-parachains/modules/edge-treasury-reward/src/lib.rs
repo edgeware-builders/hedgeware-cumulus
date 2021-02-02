@@ -144,7 +144,7 @@ decl_module! {
 				// allocation percentage denotes their fraction of the leftover_recipient_allocation
 				let leftover_recipients_reward = leftover_recipient_alloc * reward;
 				let recipients = Self::recipients();
-				let mut allocated_to_recipients: BalanceOf<T> = 0.into();
+				let mut allocated_to_recipients: BalanceOf<T> = 0u32.into();
 				for i in 0..recipients.len() {
 					if let Some(alloc) = Self::recipient_percentages(recipients[i].clone()) {
 						// calculate fraction for recipient i
