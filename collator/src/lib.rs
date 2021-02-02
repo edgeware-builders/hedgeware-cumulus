@@ -18,9 +18,9 @@
 
 use cumulus_network::WaitToAnnounce;
 use cumulus_primitives::{
-	inherents::{self, VALIDATION_DATA_IDENTIFIER},
+	inherents,
 	well_known_keys, InboundDownwardMessage, InboundHrmpMessage, OutboundHrmpMessage,
-	ValidationData,
+	PersistedValidationData, relay_chain,
 };
 use cumulus_runtime::ParachainBlockData;
 
@@ -42,7 +42,7 @@ use polkadot_node_subsystem::messages::{CollationGenerationMessage, CollatorProt
 use polkadot_overseer::OverseerHandler;
 use polkadot_primitives::v1::{
 	Block as PBlock, BlockData, BlockNumber as PBlockNumber, CollatorPair, Hash as PHash, HeadData,
-	Id as ParaId, PoV, UpwardMessage,
+	Id as ParaId, PoV, UpwardMessage, HrmpChannelId,
 };
 use polkadot_service::RuntimeApiCollection;
 
@@ -99,10 +99,10 @@ where
 	PF: Environment<Block> + 'static + Send,
 	PF::Proposer: Send,
 	BI: BlockImport<
-			Block,
-			Error = ConsensusError,
-			Transaction = <PF::Proposer as Proposer<Block>>::Transaction,
-		> + Send
+		Block,
+		Error = ConsensusError,
+		Transaction = <PF::Proposer as Proposer<Block>>::Transaction,
+	> + Send
 		+ Sync
 		+ 'static,
 	BS: BlockBackend<Block>,
@@ -195,10 +195,83 @@ where
 			.ok()
 	}
 
+	/// Collect the relevant relay chain state in form of a proof for putting it into the validation
+	/// data inherent.
+	fn collect_relay_storage_proof(
+		&self,
+		relay_parent: PHash,
+	) -> Option<sp_state_machine::StorageProof> {
+		use relay_chain::well_known_keys as relay_well_known_keys;
+
+		let relay_parent_state_backend = self
+			.polkadot_backend
+			.state_at(BlockId::Hash(relay_parent))
+			.map_err(|e| {
+				error!(
+					target: "cumulus-collator",
+					"Cannot obtain the state of the relay chain at `{:?}`: {:?}",
+					relay_parent,
+					e,
+				)
+			})
+			.ok()?;
+
+		let egress_channels = relay_parent_state_backend
+			.storage(&relay_well_known_keys::hrmp_egress_channel_index(
+				self.para_id,
+			))
+			.map_err(|e| {
+				error!(
+					target: "cumulus-collator",
+					"Cannot obtain the hrmp egress channel index: {:?}",
+					e,
+				)
+			})
+			.ok()?;
+		let egress_channels = egress_channels
+			.map(|raw| <Vec<ParaId>>::decode(&mut &raw[..]))
+			.transpose()
+			.map_err(|e| {
+				error!(
+					target: "cumulus-collator",
+					"Cannot decode the hrmp egress channel index: {:?}",
+					e,
+				)
+			})
+			.ok()?
+			.unwrap_or_default();
+
+		let mut relevant_keys = vec![];
+		relevant_keys.push(relay_well_known_keys::ACTIVE_CONFIG.to_vec());
+		relevant_keys.push(relay_well_known_keys::relay_dispatch_queue_size(
+			self.para_id,
+		));
+		relevant_keys.push(relay_well_known_keys::hrmp_egress_channel_index(
+			self.para_id,
+		));
+		relevant_keys.extend(egress_channels.into_iter().map(|recipient| {
+			relay_well_known_keys::hrmp_channels(HrmpChannelId {
+				sender: self.para_id,
+				recipient,
+			})
+		}));
+
+		sp_state_machine::prove_read(relay_parent_state_backend, relevant_keys)
+			.map_err(|e| {
+				error!(
+					target: "cumulus-collator",
+					"Failed to collect required relay chain state storage proof at `{:?}`: {:?}",
+					relay_parent,
+					e,
+				)
+			})
+			.ok()
+	}
+
 	/// Get the inherent data with validation function parameters injected
 	fn inherent_data(
 		&mut self,
-		validation_data: &ValidationData,
+		validation_data: &PersistedValidationData,
 		relay_parent: PHash,
 	) -> Option<InherentData> {
 		let mut inherent_data = self
@@ -213,46 +286,29 @@ where
 			})
 			.ok()?;
 
-		let validation_data = {
-			// TODO: Actual proof is to be created in the upcoming PRs.
-			let relay_chain_state = sp_state_machine::StorageProof::empty();
-			inherents::ValidationDataType {
+		let system_inherent_data = {
+			let relay_chain_state = self.collect_relay_storage_proof(relay_parent)?;
+			let downward_messages = self.retrieve_dmq_contents(relay_parent)?;
+			let horizontal_messages =
+				self.retrieve_all_inbound_hrmp_channel_contents(relay_parent)?;
+
+			inherents::SystemInherentData {
+				downward_messages,
+				horizontal_messages,
 				validation_data: validation_data.clone(),
 				relay_chain_state,
 			}
 		};
 
 		inherent_data
-			.put_data(VALIDATION_DATA_IDENTIFIER, &validation_data)
-			.map_err(|e| {
-				error!(
-					target: "cumulus-collator",
-					"Failed to put validation function params into inherent data: {:?}",
-					e,
-				)
-			})
-			.ok()?;
-
-		let message_ingestion_data = {
-			let downward_messages = self.retrieve_dmq_contents(relay_parent)?;
-			let horizontal_messages =
-				self.retrieve_all_inbound_hrmp_channel_contents(relay_parent)?;
-
-			inherents::MessageIngestionType {
-				downward_messages,
-				horizontal_messages,
-			}
-		};
-
-		inherent_data
 			.put_data(
-				inherents::MESSAGE_INGESTION_IDENTIFIER,
-				&message_ingestion_data,
+				inherents::SYSTEM_INHERENT_IDENTIFIER,
+				&system_inherent_data,
 			)
 			.map_err(|e| {
 				error!(
 					target: "cumulus-collator",
-					"Failed to put downward messages into inherent data: {:?}",
+					"Failed to put the system inherent into inherent data: {:?}",
 					e,
 				)
 			})
@@ -400,12 +456,12 @@ where
 	async fn produce_candidate(
 		mut self,
 		relay_parent: PHash,
-		validation_data: ValidationData,
+		validation_data: PersistedValidationData,
 	) -> Option<Collation> {
 		trace!(target: "cumulus-collator", "Producing candidate");
 
 		let last_head =
-			match Block::Header::decode(&mut &validation_data.persisted.parent_head.0[..]) {
+			match Block::Header::decode(&mut &validation_data.parent_head.0[..]) {
 				Ok(x) => x,
 				Err(e) => {
 					error!(target: "cumulus-collator", "Could not decode the head data: {:?}", e);
@@ -501,8 +557,16 @@ where
 			return None;
 		}
 
+		trace!(
+			target: "cumulus-collator",
+			"PoV size {{ header: {}kb, extrinsics: {}kb, storage_proof: {}kb }}",
+			b.header().encode().len() as f64 / 1024f64,
+			b.extrinsics().encode().len() as f64 / 1024f64,
+			b.storage_proof().encode().len() as f64 / 1024f64,
+		);
+
 		let collation =
-			self.build_collation(b, block_hash, validation_data.persisted.block_number)?;
+			self.build_collation(b, block_hash, validation_data.block_number)?;
 		let pov_hash = collation.proof_of_validity.hash();
 
 		self.wait_to_announce
@@ -680,7 +744,9 @@ mod tests {
 			_: RecordProof,
 		) -> Self::Proposal {
 			let block_id = BlockId::Hash(self.header.hash());
-			let builder = self.client.init_block_builder_at(&block_id, None);
+			let builder = self
+				.client
+				.init_block_builder_at(&block_id, None, Default::default());
 
 			let (block, storage_changes, proof) =
 				builder.build().expect("Creates block").into_inner();
@@ -760,8 +826,8 @@ mod tests {
 			CollationGenerationMessage::Initialize(config) => config,
 		};
 
-		let mut validation_data = ValidationData::default();
-		validation_data.persisted.parent_head = header.encode().into();
+		let mut validation_data = PersistedValidationData::default();
+		validation_data.parent_head = header.encode().into();
 
 		let collation = block_on((config.collator)(relay_parent, &validation_data))
 			.expect("Collation is build");

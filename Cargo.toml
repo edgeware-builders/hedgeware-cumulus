@@ -1,9 +1,8 @@
 [workspace]
 members = [
 	"consensus",
-	"message-broker",
 	"network",
-	"parachain-upgrade",
+	"parachain-system",
 	"primitives",
 	"rococo-parachains/",
 	"rococo-parachains/lockdrop",
@@ -17,6 +16,7 @@ members = [
 	"test/runtime",
 	"test/client",
 	"test/service",
+	"test/relay-sproof-builder",
 	"xcm-handler",
 ]
 

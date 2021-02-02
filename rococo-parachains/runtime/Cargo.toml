@@ -5,7 +5,7 @@ authors = ["Parity Technologies <admin@parity.io>"]
 edition = '2018'
 
 [dependencies]
-serde = { version = "1.0.101", optional = true, features = ["derive"] }
+serde = { version = "1.0.119", optional = true, features = ["derive"] }
 codec = { package = "parity-scale-codec", version = "1.3.0", default-features = false, features = ["derive"] }
 static_assertions = "1.1.0"
 
@@ -63,16 +63,15 @@ edge-treasury-reward = { path = "../modules/edge-treasury-reward", default-featu
 
 # Cumulus dependencies
 cumulus-runtime = { path = "../../runtime", default-features = false }
-cumulus-parachain-upgrade = { path = "../../parachain-upgrade", default-features = false }
+cumulus-parachain-system = { path = "../../parachain-system", default-features = false }
 cumulus-primitives = { path = "../../primitives", default-features = false }
-cumulus-message-broker = { path = "../../message-broker", default-features = false }
 xcm-handler = { path = "../../xcm-handler", default-features = false }
 
 # Polkadot dependencies
-polkadot-parachain = { git = "https://github.com/paritytech/polkadot", default-features = false , branch = "rococo-v1" }
-xcm = { git = "https://github.com/paritytech/polkadot", default-features = false , branch = "rococo-v1" }
-xcm-builder = { git = "https://github.com/paritytech/polkadot", default-features = false , branch = "rococo-v1" }
-xcm-executor = { git = "https://github.com/paritytech/polkadot", default-features = false , branch = "rococo-v1" }
+polkadot-parachain = { git = "https://github.com/paritytech/polkadot", default-features = false, branch = "rococo-v1" }
+xcm = { git = "https://github.com/paritytech/polkadot", default-features = false, branch = "rococo-v1" }
+xcm-builder = { git = "https://github.com/paritytech/polkadot", default-features = false, branch = "rococo-v1" }
+xcm-executor = { git = "https://github.com/paritytech/polkadot", default-features = false, branch = "rococo-v1" }
 
 [build-dependencies]
 substrate-wasm-builder = "3.0.0"
@@ -120,8 +119,7 @@ std = [
 	"parachain-info/std",
 	"rococo-parachain-primitives/std",
 	"cumulus-runtime/std",
-	"cumulus-parachain-upgrade/std",
-	"cumulus-message-broker/std",
+	"cumulus-parachain-system/std",
 	"cumulus-primitives/std",
 	"xcm/std",
 	"xcm-builder/std",
