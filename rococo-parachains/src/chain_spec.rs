@@ -55,7 +55,7 @@ impl Extensions {
 
 /// Mainnet configuration
 pub fn hedgeware_rococo_testnet() -> ChainSpec {
-	match ChainSpec::from_json_bytes(&include_bytes!("../res/hedgeware_rococo.chainspec.json")[..]) {
+	match ChainSpec::from_json_bytes(&include_bytes!("../res/hedgeware.chainspec.json")[..]) {
 		Ok(spec) => spec,
 		Err(e) => panic!(e),
 	}
@@ -152,6 +152,7 @@ fn testnet_genesis(
 ) -> parachain_runtime::GenesisConfig {
 	let allocation: Allocation = parse_allocation().unwrap();
 	let balances: Vec<(AccountId, Balance)> = allocation.balances;
+
 	let vesting: Vec<(AccountId, BlockNumber, BlockNumber, Balance)> = allocation.vesting;
 
 	const INITIAL_BALANCE: u128 = 1_000_000 * DOLLARS;

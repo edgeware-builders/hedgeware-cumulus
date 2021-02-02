@@ -3697,6 +3697,7 @@ name = "lockdrop"
 version = "0.1.0"
 dependencies = [
  "hex 0.3.2",
+ "hex-literal 0.2.1",
  "parity-scale-codec",
  "rococo-parachain-primitives",
  "serde",

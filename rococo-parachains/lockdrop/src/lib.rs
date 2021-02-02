@@ -6,6 +6,8 @@ use std::path::Path;
 use serde::{Serialize, Deserialize};
 use rococo_parachain_primitives::*;
 
+pub mod mainnet_fixtures;
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Allocation {
 	pub balances: Vec<(AccountId, Balance)>,
@@ -30,7 +32,7 @@ pub fn get_lockdrop_participants_allocation() -> Result<AllocationRaw> {
 
 pub fn parse_allocation() -> Result<Allocation> {
 	let allocation = get_lockdrop_participants_allocation().unwrap();
-	let balances = allocation
+	let mut balances: Vec<(AccountId, Balance)> = allocation
 		.balances
 		.iter()
 		.map(|b| {
@@ -39,6 +41,16 @@ pub fn parse_allocation() -> Result<Allocation> {
 		})
 		.filter(|b| b.1 > 0)
 		.collect();
+
+	let mainnet_alloc = mainnet_fixtures::get_commonwealth_allocation();
+	for i in 0..balances.len() {
+		for j in 0..mainnet_alloc.len() {
+			if balances[i].0 == mainnet_alloc[j].0 {
+				balances[i].1 += mainnet_alloc[j].1
+			}
+		}
+	}
+
 	let vesting = allocation
 		.vesting
 		.iter()
