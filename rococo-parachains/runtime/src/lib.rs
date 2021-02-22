@@ -754,25 +754,26 @@ impl edge_treasury_reward::Config for Runtime {
 }
 
 parameter_types! {
-	pub const AssetDepositBase: u64 = 1;
-	pub const AssetDepositPerZombie: u64 = 1;
-	pub const AllowFreezing: bool = true;
-	pub const AllowBurning: bool = true;
-	pub const AllowMinting: bool = true;
+	pub const AssetDepositBase: Balance = 100 * DOLLARS;
+	pub const AssetDepositPerZombie: Balance = 1 * DOLLARS;
+	pub const StringLimit: u32 = 50;
+	pub const MetadataDepositBase: Balance = 10 * DOLLARS;
+	pub const MetadataDepositPerByte: Balance = 1 * DOLLARS;
 }
 
-impl edge_assets::Config for Runtime {
-	type Currency = Balances;
+
+impl pallet_assets::Config for Runtime {
 	type Event = Event;
-	type Balance = Balance;
-	type AssetId = AssetId;
-	type ForceOrigin = frame_system::EnsureRoot<Self::AccountId>;
+	type Balance = u64;
+	type AssetId = u32;
+	type Currency = Balances;
+	type ForceOrigin = EnsureRoot<AccountId>;
 	type AssetDepositBase = AssetDepositBase;
 	type AssetDepositPerZombie = AssetDepositPerZombie;
-	type AllowFreezing = AllowFreezing;
-	type AllowBurning = AllowBurning;
-	type AllowMinting = AllowMinting;
-	type WeightInfo = edge_assets::weights::SubstrateWeight<Runtime>;
+	type StringLimit = StringLimit;
+	type MetadataDepositBase = MetadataDepositBase;
+	type MetadataDepositPerByte = MetadataDepositPerByte;
+	type WeightInfo = pallet_assets::weights::SubstrateWeight<Runtime>;
 }
 
 // impl<F: FindAuthor<u32>> FindAuthor<H160> for EthereumFindAuthor<F> {
@@ -824,7 +825,7 @@ construct_runtime! {
 		TreasuryReward: edge_treasury_reward::{Module, Call, Storage, Config<T>, Event<T>},
 		Bounties: pallet_bounties::{Module, Call, Storage, Event<T>},
 		Tips: pallet_tips::{Module, Call, Storage, Event<T>},
-		Assets: edge_assets::{Module, Call, Storage, Event<T>},
+		Assets: pallet_assets::{Module, Call, Storage, Event<T>},
 
 		Democracy: pallet_democracy::{Module, Call, Storage, Config, Event<T>},
 		Contracts: pallet_contracts::{Module, Call, Config<T>, Storage, Event<T>},
