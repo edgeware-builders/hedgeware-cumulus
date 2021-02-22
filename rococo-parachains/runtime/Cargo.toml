@@ -5,9 +5,9 @@ authors = ["Parity Technologies <admin@parity.io>"]
 edition = '2018'
 
 [dependencies]
-serde = { version = "1.0.119", optional = true, features = ["derive"] }
-codec = { package = "parity-scale-codec", version = "1.3.0", default-features = false, features = ["derive"] }
 static_assertions = "1.1.0"
+serde = { version = "1.0.101", optional = true, features = ["derive"] }
+codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false, features = ["derive"] }
 
 parachain-info = { path = "../pallets/parachain-info", default-features = false }
 rococo-parachain-primitives = { path = "../primitives", default-features = false }
@@ -62,10 +62,9 @@ edge-treasury-reward = { path = "../modules/edge-treasury-reward", default-featu
 # fp-rpc = { path = "../frontier/primitives/rpc" }
 
 # Cumulus dependencies
-cumulus-runtime = { path = "../../runtime", default-features = false }
-cumulus-parachain-system = { path = "../../parachain-system", default-features = false }
-cumulus-primitives = { path = "../../primitives", default-features = false }
-xcm-handler = { path = "../../xcm-handler", default-features = false }
+cumulus-pallet-parachain-system = { path = "../../pallets/parachain-system", default-features = false }
+cumulus-primitives-core = { path = "../../primitives/core", default-features = false }
+cumulus-pallet-xcm-handler = { path = "../../pallets/xcm-handler", default-features = false }
 
 # Polkadot dependencies
 polkadot-parachain = { git = "https://github.com/paritytech/polkadot", default-features = false, branch = "rococo-v1" }
@@ -118,13 +117,12 @@ std = [
 	"pallet-vesting/std",
 	"parachain-info/std",
 	"rococo-parachain-primitives/std",
-	"cumulus-runtime/std",
-	"cumulus-parachain-system/std",
-	"cumulus-primitives/std",
+	"cumulus-pallet-parachain-system/std",
+	"cumulus-pallet-xcm-handler/std",
+	"cumulus-primitives-core/std",
 	"xcm/std",
 	"xcm-builder/std",
 	"xcm-executor/std",
-	"xcm-handler/std",
 
 	"edge-assets/std",
 	"edge-treasury-reward/std",
