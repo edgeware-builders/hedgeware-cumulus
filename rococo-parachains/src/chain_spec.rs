@@ -57,7 +57,7 @@ impl Extensions {
 pub fn hedgeware_rococo_testnet() -> ChainSpec {
 	match ChainSpec::from_json_bytes(&include_bytes!("../res/hedgeware.chainspec.json")[..]) {
 		Ok(spec) => spec,
-		Err(e) => panic!(e),
+		Err(e) => panic!("{}", e),
 	}
 }
 
