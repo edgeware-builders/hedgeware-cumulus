@@ -15,7 +15,7 @@
 // along with Cumulus.  If not, see <http://www.gnu.org/licenses/>.
 
 use parachain_runtime::DOLLARS;
-use cumulus_primitives::ParaId;
+use cumulus_primitives_core::ParaId;
 use hex_literal::hex;
 use rococo_parachain_primitives::{AccountId, Signature};
 use sc_chain_spec::{ChainSpecExtension, ChainSpecGroup};
@@ -57,7 +57,7 @@ impl Extensions {
 pub fn hedgeware_rococo_testnet() -> ChainSpec {
 	match ChainSpec::from_json_bytes(&include_bytes!("../res/hedgeware.chainspec.json")[..]) {
 		Ok(spec) => spec,
-		Err(e) => panic!(e),
+		Err(e) => panic!("{}", e),
 	}
 }
 
