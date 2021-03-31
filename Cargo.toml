@@ -1,5 +1,6 @@
 [workspace]
 members = [
+	"client/cli",
 	"client/consensus/common",
 	"client/consensus/relay-chain",
 	"client/network",
@@ -12,6 +13,7 @@ members = [
 	"rococo-parachains/lockdrop",
 	"rococo-parachains/modules/edge-treasury-reward",
 	"rococo-parachains/pallets/parachain-info",
+	"rococo-parachains/pallets/spambot",
 	"rococo-parachains/primitives",
 	"rococo-parachains/runtime",
 	"test/runtime",
