@@ -1,4 +1,4 @@
-// Copyright 2019 Parity Technologies (UK) Ltd.
+// Copyright 2019-2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
 // Cumulus is free software: you can redistribute it and/or modify
@@ -158,13 +158,13 @@ fn testnet_genesis(
 	const INITIAL_BALANCE: u128 = 1_000_000 * DOLLARS;
 
 	parachain_runtime::GenesisConfig {
-		frame_system: Some(parachain_runtime::SystemConfig {
+		frame_system: parachain_runtime::SystemConfig {
 			code: parachain_runtime::WASM_BINARY
 				.expect("WASM binary was not build, please build it!")
 				.to_vec(),
 			changes_trie_config: Default::default(),
-		}),
-		pallet_balances: Some(parachain_runtime::BalancesConfig {
+		},
+		pallet_balances: parachain_runtime::BalancesConfig {
 			balances: balances.into_iter()
 				.chain::<Vec<(AccountId, Balance)>>(
 					endowed_accounts
@@ -174,18 +174,18 @@ fn testnet_genesis(
 					)
 				.map(|a| a)
 				.collect::<Vec<(AccountId, Balance)>>(),
-		}),
-		pallet_vesting: Some(parachain_runtime::VestingConfig { vesting: vesting }),
-		pallet_sudo: Some(parachain_runtime::SudoConfig { key: root_key }),
-		parachain_info: Some(parachain_runtime::ParachainInfoConfig { parachain_id: id }),
-		pallet_contracts: Some(Default::default()),
-		pallet_democracy: Some(parachain_runtime::DemocracyConfig::default()),
-		pallet_collective_Instance1: Some(parachain_runtime::CouncilConfig {
+		},
+		pallet_vesting: parachain_runtime::VestingConfig { vesting: vesting },
+		pallet_sudo: parachain_runtime::SudoConfig { key: root_key },
+		parachain_info: parachain_runtime::ParachainInfoConfig { parachain_id: id },
+		pallet_contracts: Default::default(),
+		pallet_democracy: Default::default(),
+		pallet_collective_Instance1: parachain_runtime::CouncilConfig {
 			members: vec![],
 			phantom: Default::default(),
-		}),
-		pallet_treasury: Some(Default::default()),
-		edge_treasury_reward: Some(Default::default()),
-		pallet_elections_phragmen: Some(Default::default()),
+		},
+		pallet_treasury: Default::default(),
+		edge_treasury_reward: Default::default(),
+		pallet_elections_phragmen: Default::default(),
 	}
 }

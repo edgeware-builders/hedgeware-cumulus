@@ -22,13 +22,15 @@
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
-use sp_api::{decl_runtime_apis, impl_runtime_apis};
+use cumulus_pallet_contracts_rpc_runtime_api::ContractExecResult;
+use rococo_parachain_primitives::*;
+use sp_api::impl_runtime_apis;
 use sp_core::OpaqueMetadata;
 use sp_runtime::{
 	create_runtime_str, generic, impl_opaque_keys,
-	traits::{BlakeTwo256, Block as BlockT, IdentifyAccount, IdentityLookup, Verify},
+	traits::{BlakeTwo256, Block as BlockT, IdentityLookup, Saturating},
 	transaction_validity::{TransactionSource, TransactionValidity},
-	ApplyExtrinsicResult, MultiSignature,
+	ApplyExtrinsicResult,
 };
 use sp_std::prelude::*;
 #[cfg(feature = "std")]
@@ -39,13 +41,9 @@ use sp_version::RuntimeVersion;
 pub use frame_support::{
 	construct_runtime, parameter_types,
 	traits::Randomness,
-	weights::{
-		constants::{BlockExecutionWeight, ExtrinsicBaseWeight, RocksDbWeight, WEIGHT_PER_SECOND},
-		DispatchClass, IdentityFee, Weight,
-	},
+	weights::{constants::WEIGHT_PER_SECOND, IdentityFee, Weight},
 	StorageValue,
 };
-use frame_system::limits::{BlockLength, BlockWeights};
 pub use pallet_balances::Call as BalancesCall;
 pub use pallet_timestamp::Call as TimestampCall;
 #[cfg(any(feature = "std", test))]
@@ -60,16 +58,16 @@ impl_opaque_keys! {
 
 /// This runtime version.
 pub const VERSION: RuntimeVersion = RuntimeVersion {
-	spec_name: create_runtime_str!("cumulus-test-parachain"),
-	impl_name: create_runtime_str!("cumulus-test-parachain"),
+	spec_name: create_runtime_str!("cumulus-contracts-parachain"),
+	impl_name: create_runtime_str!("cumulus-contracts-parachain"),
 	authoring_version: 1,
-	spec_version: 3,
+	spec_version: 4,
 	impl_version: 1,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: 1,
 };
 
-pub const MILLISECS_PER_BLOCK: u64 = 1000;
+pub const MILLISECS_PER_BLOCK: u64 = 6000;
 
 pub const SLOT_DURATION: u64 = MILLISECS_PER_BLOCK;
 
@@ -83,6 +81,12 @@ pub const DAYS: BlockNumber = HOURS * 24;
 // 1 in 4 blocks (on average, not counting collisions) will be primary babe blocks.
 pub const PRIMARY_PROBABILITY: (u64, u64) = (1, 4);
 
+#[derive(codec::Encode, codec::Decode)]
+pub enum XCMPMessage<XAccountId, XBalance> {
+	/// Transfer tokens to the given account from the Parachain account.
+	TransferToken(XAccountId, XBalance),
+}
+
 /// The version information used to identify this runtime when compiled natively.
 #[cfg(feature = "std")]
 pub fn native_version() -> NativeVersion {
@@ -92,38 +96,16 @@ pub fn native_version() -> NativeVersion {
 	}
 }
 
-/// We assume that ~10% of the block weight is consumed by `on_initalize` handlers.
-/// This is used to limit the maximal weight of a single extrinsic.
-const AVERAGE_ON_INITIALIZE_RATIO: Perbill = Perbill::from_percent(10);
-/// We allow `Normal` extrinsics to fill up the block up to 75%, the rest can be used
-/// by  Operational  extrinsics.
-const NORMAL_DISPATCH_RATIO: Perbill = Perbill::from_percent(75);
-/// We allow for 2 seconds of compute with a 6 second average block time.
-const MAXIMUM_BLOCK_WEIGHT: Weight = 2 * WEIGHT_PER_SECOND;
-
 parameter_types! {
 	pub const BlockHashCount: BlockNumber = 250;
+	pub const MaximumBlockWeight: Weight = 2 * WEIGHT_PER_SECOND;
+	/// Assume 10% of weight for average on_initialize calls.
+	pub MaximumExtrinsicWeight: Weight = AvailableBlockRatio::get()
+		.saturating_sub(Perbill::from_percent(10)) * MaximumBlockWeight::get();
+	pub const AvailableBlockRatio: Perbill = Perbill::from_percent(75);
+	pub const MaximumBlockLength: u32 = 5 * 1024 * 1024;
 	pub const Version: RuntimeVersion = VERSION;
-	pub RuntimeBlockLength: BlockLength =
-		BlockLength::max_with_normal_ratio(5 * 1024 * 1024, NORMAL_DISPATCH_RATIO);
-	pub RuntimeBlockWeights: BlockWeights = BlockWeights::builder()
-		.base_block(BlockExecutionWeight::get())
-		.for_class(DispatchClass::all(), |weights| {
-			weights.base_extrinsic = ExtrinsicBaseWeight::get();
-		})
-		.for_class(DispatchClass::Normal, |weights| {
-			weights.max_total = Some(NORMAL_DISPATCH_RATIO * MAXIMUM_BLOCK_WEIGHT);
-		})
-		.for_class(DispatchClass::Operational, |weights| {
-			weights.max_total = Some(MAXIMUM_BLOCK_WEIGHT);
-			// Operational transactions have some extra reserved space, so that they
-			// are included even if block reached `MAXIMUM_BLOCK_WEIGHT`.
-			weights.reserved = Some(
-				MAXIMUM_BLOCK_WEIGHT - NORMAL_DISPATCH_RATIO * MAXIMUM_BLOCK_WEIGHT
-			);
-		})
-		.avg_block_initialization(AVERAGE_ON_INITIALIZE_RATIO)
-		.build_or_panic();
+	pub const ExtrinsicBaseWeight: Weight = 10_000_000;
 	pub const SS58Prefix: u8 = 42;
 }
 
@@ -150,6 +132,12 @@ impl frame_system::Config for Runtime {
 	type Origin = Origin;
 	/// Maximum number of block number to block hash mappings to keep (oldest pruned first).
 	type BlockHashCount = BlockHashCount;
+	/// Maximum weight of each block. With a default weight system of 1byte == 1weight, 4mb is ok.
+	type MaximumBlockWeight = MaximumBlockWeight;
+	/// Maximum size of all encoded transactions (in bytes) that are allowed in one block.
+	type MaximumBlockLength = MaximumBlockLength;
+	/// Portion of the block weight that is available to all normal transactions.
+	type AvailableBlockRatio = AvailableBlockRatio;
 	/// Runtime version.
 	type Version = Version;
 	type PalletInfo = PalletInfo;
@@ -157,10 +145,11 @@ impl frame_system::Config for Runtime {
 	type OnNewAccount = ();
 	type OnKilledAccount = ();
 	type DbWeight = ();
+	type ExtrinsicBaseWeight = ExtrinsicBaseWeight;
+	type BlockExecutionWeight = ();
+	type MaximumExtrinsicWeight = MaximumExtrinsicWeight;
 	type BaseCallFilter = ();
 	type SystemWeightInfo = ();
-	type BlockWeights = RuntimeBlockWeights;
-	type BlockLength = RuntimeBlockLength;
 	type SS58Prefix = SS58Prefix;
 }
 
@@ -192,11 +181,11 @@ impl pallet_balances::Config for Runtime {
 	type ExistentialDeposit = ExistentialDeposit;
 	type AccountStore = System;
 	type WeightInfo = ();
-	type MaxLocks = ();
 }
 
 impl pallet_transaction_payment::Config for Runtime {
-	type OnChargeTransaction = pallet_transaction_payment::CurrencyAdapter<Balances, ()>;
+	type Currency = Balances;
+	type OnTransactionPayment = ();
 	type TransactionByteFee = TransactionByteFee;
 	type WeightToFee = IdentityFee<Balance>;
 	type FeeMultiplierUpdate = ();
@@ -207,49 +196,77 @@ impl pallet_sudo::Config for Runtime {
 	type Event = Event;
 }
 
-impl cumulus_pallet_parachain_system::Config for Runtime {
-	type SelfParaId = ParachainId;
+impl cumulus_parachain_system::Config for Runtime {
 	type Event = Event;
-	type OnValidationData = ();
-	type DownwardMessageHandlers = ();
-	type HrmpMessageHandlers = ();
+	type OnValidationFunctionParams = ();
 }
 
+impl cumulus_message_broker::Config for Runtime {
+	type Event = Event;
+	type DownwardMessageHandlers = TokenDealer;
+	type UpwardMessage = cumulus_upward_message::RococoUpwardMessage;
+	type ParachainId = ParachainInfo;
+	type XCMPMessage = cumulus_token_dealer::XCMPMessage<AccountId, Balance>;
+	type XCMPMessageHandlers = TokenDealer;
+}
+
+impl cumulus_token_dealer::Config for Runtime {
+	type Event = Event;
+	type UpwardMessageSender = MessageBroker;
+	type UpwardMessage = cumulus_upward_message::RococoUpwardMessage;
+	type Currency = Balances;
+	type XCMPMessageSender = MessageBroker;
+}
+
+impl parachain_info::Config for Runtime {}
+
+// We disable the rent system for easier testing.
 parameter_types! {
-	pub storage ParachainId: cumulus_primitives_core::ParaId = 100.into();
+	pub const TombstoneDeposit: Balance = 0;
+	pub const RentByteFee: Balance = 0;
+	pub const RentDepositOffset: Balance = 0;
+	pub const SurchargeReward: Balance = 0;
+}
+
+impl cumulus_pallet_contracts::Config for Runtime {
+	type Time = Timestamp;
+	type Randomness = RandomnessCollectiveFlip;
+	type Currency = Balances;
+	type Call = Call;
+	type Event = Event;
+	type DetermineContractAddress = cumulus_pallet_contracts::SimpleAddressDeterminer<Runtime>;
+	type TrieIdGenerator = cumulus_pallet_contracts::TrieIdFromParentCounter<Runtime>;
+	type RentPayment = ();
+	type SignedClaimHandicap = cumulus_pallet_contracts::DefaultSignedClaimHandicap;
+	type TombstoneDeposit = TombstoneDeposit;
+	type StorageSizeOffset = cumulus_pallet_contracts::DefaultStorageSizeOffset;
+	type RentByteFee = RentByteFee;
+	type RentDepositOffset = RentDepositOffset;
+	type SurchargeReward = SurchargeReward;
+	type MaxDepth = cumulus_pallet_contracts::DefaultMaxDepth;
+	type MaxValueSize = cumulus_pallet_contracts::DefaultMaxValueSize;
+	type WeightPrice = pallet_transaction_payment::Module<Self>;
 }
 
 construct_runtime! {
 	pub enum Runtime where
 		Block = Block,
-		NodeBlock = NodeBlock,
-		UncheckedExtrinsic = UncheckedExtrinsic,
+		NodeBlock = rococo_parachain_primitives::Block,
+		UncheckedExtrinsic = UncheckedExtrinsic
 	{
-		System: frame_system::{Pallet, Call, Storage, Config, Event<T>},
-		Timestamp: pallet_timestamp::{Pallet, Call, Storage, Inherent},
-		Balances: pallet_balances::{Pallet, Call, Storage, Config<T>, Event<T>},
-		Sudo: pallet_sudo::{Pallet, Call, Storage, Config<T>, Event<T>},
-		RandomnessCollectiveFlip: pallet_randomness_collective_flip::{Pallet, Call, Storage},
-		ParachainSystem: cumulus_pallet_parachain_system::{Pallet, Call, Storage, Inherent, Event},
-		TransactionPayment: pallet_transaction_payment::{Pallet, Storage},
+		System: frame_system::{Module, Call, Storage, Config, Event<T>},
+		Timestamp: pallet_timestamp::{Module, Call, Storage, Inherent},
+		Balances: pallet_balances::{Module, Call, Storage, Config<T>, Event<T>},
+		Contracts: cumulus_pallet_contracts::{Module, Call, Config, Storage, Event<T>},
+		Sudo: pallet_sudo::{Module, Call, Storage, Config<T>, Event<T>},
+		RandomnessCollectiveFlip: pallet_randomness_collective_flip::{Module, Call, Storage},
+		ParachainUpgrade: cumulus_parachain_system::{Module, Call, Storage, Inherent, Event},
+		MessageBroker: cumulus_message_broker::{Module, Call, Inherent, Event<T>},
+		TokenDealer: cumulus_token_dealer::{Module, Call, Event<T>},
+		TransactionPayment: pallet_transaction_payment::{Module, Storage},
+		ParachainInfo: parachain_info::{Module, Storage, Config},
 	}
 }
-
-/// Index of a transaction in the chain.
-pub type Index = u32;
-/// A hash of some data used by the chain.
-pub type Hash = sp_core::H256;
-/// Balance of an account.
-pub type Balance = u128;
-/// Alias to 512-bit hash when used in the context of a transaction signature on the chain.
-pub type Signature = MultiSignature;
-/// An index to a block.
-pub type BlockNumber = u32;
-/// Some way of identifying an account on the chain. We intentionally make it equivalent
-/// to the public key of our transaction signing scheme.
-pub type AccountId = <<Signature as Verify>::Signer as IdentifyAccount>::AccountId;
-/// Opaque block type.
-pub type NodeBlock = generic::Block<Header, sp_runtime::OpaqueExtrinsic>;
 
 /// The address format for describing accounts.
 pub type Address = AccountId;
@@ -280,17 +297,8 @@ pub type Executive = frame_executive::Executive<
 	Block,
 	frame_system::ChainContext<Runtime>,
 	Runtime,
-	AllPallets,
+	AllModules,
 >;
-/// The payload being signed in transactions.
-pub type SignedPayload = generic::SignedPayload<Call, SignedExtra>;
-
-decl_runtime_apis! {
-	pub trait GetLastTimestamp {
-		/// Returns the last timestamp of a runtime.
-		fn get_last_timestamp() -> u64;
-	}
-}
 
 impl_runtime_apis! {
 	impl sp_api::Core<Block> for Runtime {
@@ -333,7 +341,7 @@ impl_runtime_apis! {
 		}
 
 		fn random_seed() -> <Block as BlockT>::Hash {
-			RandomnessCollectiveFlip::random_seed().0
+			RandomnessCollectiveFlip::random_seed()
 		}
 	}
 
@@ -364,11 +372,41 @@ impl_runtime_apis! {
 		}
 	}
 
-	impl crate::GetLastTimestamp<Block> for Runtime {
-		fn get_last_timestamp() -> u64 {
-			Timestamp::now()
+	impl cumulus_pallet_contracts_rpc_runtime_api::ContractsApi<Block, AccountId, Balance, BlockNumber>
+		for Runtime
+	{
+		fn call(
+			origin: AccountId,
+			dest: AccountId,
+			value: Balance,
+			gas_limit: u64,
+			input_data: Vec<u8>,
+		) -> ContractExecResult {
+			let (exec_result, gas_consumed) =
+				Contracts::bare_call(origin, dest.into(), value, gas_limit, input_data);
+			match exec_result {
+				Ok(v) => ContractExecResult::Success {
+					flags: v.status.into(),
+					data: v.data,
+					gas_consumed: gas_consumed,
+				},
+				Err(_) => ContractExecResult::Error,
+			}
+		}
+
+		fn get_storage(
+			address: AccountId,
+			key: [u8; 32],
+		) -> cumulus_pallet_contracts_primitives::GetStorageResult {
+			Contracts::get_storage(address, key)
+		}
+
+		fn rent_projection(
+			address: AccountId,
+		) -> cumulus_pallet_contracts_primitives::RentProjectionResult<BlockNumber> {
+			Contracts::rent_projection(address)
 		}
 	}
 }
 
-cumulus_pallet_parachain_system::register_validate_block!(Runtime, Executive);
+cumulus_pallet_parachain_system::register_validate_block!(Block, Executive);

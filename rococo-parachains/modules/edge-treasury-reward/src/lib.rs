@@ -134,7 +134,7 @@ decl_module! {
 
 		/// Mint money for the treasury and recipient pool!
 		fn on_finalize(_n: T::BlockNumber) {
-			if <frame_system::Module<T>>::block_number() % Self::minting_interval() == Zero::zero() {
+			if <frame_system::Pallet<T>>::block_number() % Self::minting_interval() == Zero::zero() {
 				let reward = Self::current_payout();
 				// get up front treasury reward from minimum amount that is always allocated
 				let mut treasury_reward = T::MinimumTreasuryPct::get() * reward;
@@ -156,8 +156,8 @@ decl_module! {
 						);
 						// emit event of payout
 						Self::deposit_event(RawEvent::TreasuryMinting(
-							<pallet_balances::Module<T>>::free_balance(recipients[i].clone()),
-							<frame_system::Module<T>>::block_number(),
+							<pallet_balances::Pallet<T>>::free_balance(recipients[i].clone()),
+							<frame_system::Pallet<T>>::block_number(),
 							recipients[i].clone())
 						);
 						// track currently allocated amount to recipients
@@ -175,14 +175,14 @@ decl_module! {
 
 				// allocate reward to the Treasury
 				<T as Config>::Currency::deposit_creating(
-					&<pallet_treasury::Module<T>>::account_id(),
+					&<pallet_treasury::Pallet<T>>::account_id(),
 					treasury_reward,
 				);
 				// emit event of payout
 				Self::deposit_event(RawEvent::TreasuryMinting(
-					<pallet_balances::Module<T>>::free_balance(<pallet_treasury::Module<T>>::account_id()),
-					<frame_system::Module<T>>::block_number(),
-					<pallet_treasury::Module<T>>::account_id())
+					<pallet_balances::Pallet<T>>::free_balance(<pallet_treasury::Pallet<T>>::account_id()),
+					<frame_system::Pallet<T>>::block_number(),
+					<pallet_treasury::Pallet<T>>::account_id())
 				);
 			}
 		}
