@@ -187,5 +187,17 @@ fn testnet_genesis(
 		pallet_treasury: Default::default(),
 		edge_treasury_reward: Default::default(),
 		pallet_elections_phragmen: Default::default(),
+		orml_tokens: Some(TokensConfig {
+			endowed_accounts
+			.iter()
+			.flat_map(|x| {
+				vec![
+					(x.clone(), CurrencyId::EDG, 10_u128.pow(16)),
+					(x.clone(), CurrencyId::DOT, 10_u128.pow(16)),
+					(x.clone(), CurrencyId::BTC, 10_u128.pow(16)),
+				]
+			})
+			.collect(),
+		}),
 	}
 }

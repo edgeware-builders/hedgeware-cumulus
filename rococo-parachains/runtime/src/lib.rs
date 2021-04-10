@@ -803,6 +803,44 @@ parameter_types! {
 // 	}
 // }
 
+// Add xTokens messaging
+#[cfg(feature = "std")]
+use serde::{Serialize, Deserialize};
+use sp_runtime::RuntimeDebug;
+use orml_currencies::BasicCurrencyAdapter;
+
+pub type Amount = u128;
+
+#[derive(Encode, Decode, Eq, PartialEq, Copy, Clone, RuntimeDebug, PartialOrd, Ord)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+pub enum CurrencyId {
+	Native,
+	EDG,
+	DOT,
+	KSM,
+	BTC,
+}
+
+impl orml_tokens::Config for Runtime {
+	type Event = Event;
+	type Balance = Balance;
+	type Amount = Amount;
+	type CurrencyId = CurrencyId;
+	type OnReceived = ();
+	type WeightInfo = ();
+}
+
+parameter_types! {
+	pub const GetNativeCurrencyId: CurrencyId = CurrencyId::Native;
+}
+
+impl orml_currencies::Config for Runtime {
+	type Event = Event;
+	type MultiCurrency = Tokens;
+	type NativeCurrency = BasicCurrencyAdapter<Runtime, Balances, Amount, BlockNumber>;
+	type GetNativeCurrencyId = GetNativeCurrencyId;
+	type WeightInfo = ();
+}
 
 construct_runtime! {
 	pub enum Runtime where
@@ -841,6 +879,10 @@ construct_runtime! {
 		// Ethereum: pallet_ethereum::{Pallet, Call, Storage, Event, Config, ValidateUnsigned},
 
 		Spambot: cumulus_spambot::{Pallet, Call, Storage, Event<T>} = 99,
+
+		//orml_tokens
+		Currencies: orml_currencies::{Module, Call, Event<T>},
+		Tokens: orml_tokens::{Module, Storage, Event<T>, Config<T>},
 	}
 }
 
