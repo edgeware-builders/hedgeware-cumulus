@@ -74,7 +74,7 @@ decl_module! {
 
 		fn deposit_event() = default;
 
-		#[weight = 1_000]
+		#[weight = 10_000]
 		fn submit_message(
 			origin,
 			base_currency_id: CurrencyIdOf<T>,
@@ -105,7 +105,7 @@ decl_module! {
 			})?;
 		}
 
-		#[weight = 1_000]
+		#[weight = 10_000]
 		fn take_message(origin, message_id: T::MessageId) {
 			let who = ensure_signed(origin)?;
 
@@ -127,7 +127,7 @@ message.target_amount)?;
 			})?;
 		}
 
-		#[weight = 1_000]
+		#[weight = 10_000]
 		fn cancel_message(origin, message_id: T::MessageId) {
 			let who = ensure_signed(origin)?;
 
