@@ -806,19 +806,47 @@ parameter_types! {
 // Add xTokens messaging
 #[cfg(feature = "std")]
 use serde::{Serialize, Deserialize};
-use sp_runtime::RuntimeDebug;
+//use orml_currencies::BasicCurrencyAdapter;
 use orml_currencies::BasicCurrencyAdapter;
+use orml_traits::{
+	create_median_value_data_provider, parameter_type_with_key, DataFeeder, DataProvider, DataProviderExtended,
+};
+use sp_std::convert::TryFrom;
+use sp_runtime::traits::Zero;
 
-pub type Amount = u128;
+pub type Amount = i128;
 
 #[derive(Encode, Decode, Eq, PartialEq, Copy, Clone, RuntimeDebug, PartialOrd, Ord)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub enum CurrencyId {
-	Native,
-	EDG,
+	EDG = 0,
 	DOT,
 	KSM,
 	BTC,
+}
+
+impl TryFrom<Vec<u8>> for CurrencyId {
+	type Error = ();
+	fn try_from(v: Vec<u8>) -> Result<CurrencyId, ()> {
+		match v.as_slice() {
+			b"EDG" => Ok(CurrencyId::EDG),
+			b"DOT" => Ok(CurrencyId::DOT),
+			b"KSM" => Ok(CurrencyId::KSM),
+			b"BTC" => Ok(CurrencyId::BTC),
+			_ => Err(()),
+		}
+	}
+}
+
+parameter_types! {
+	pub TreasuryAccount: AccountId = pallet_treasury::Module::<Runtime>::account_id();
+}
+
+
+parameter_type_with_key! {
+	pub ExistentialDeposits: |currency_id: CurrencyId| -> Balance {
+		Zero::zero()
+	};
 }
 
 impl orml_tokens::Config for Runtime {
@@ -826,20 +854,36 @@ impl orml_tokens::Config for Runtime {
 	type Balance = Balance;
 	type Amount = Amount;
 	type CurrencyId = CurrencyId;
-	type OnReceived = ();
 	type WeightInfo = ();
+	type ExistentialDeposits = ExistentialDeposits;
+	type OnDust = orml_tokens::TransferDust<Runtime, TreasuryAccount>;
 }
 
 parameter_types! {
-	pub const GetNativeCurrencyId: CurrencyId = CurrencyId::Native;
+	pub const GetHedgeTokenId: CurrencyId = CurrencyId::EDG;
+	pub SyntheticCurrencyIds: Vec<CurrencyId> = vec![
+		CurrencyId::EDG,
+		CurrencyId::DOT,
+		CurrencyId::KSM,
+		CurrencyId::BTC,
+	];
+	pub const DefaultExtremeRatio: Permill = Permill::from_percent(1);
+	pub const DefaultLiquidationRatio: Permill = Permill::from_percent(5);
+	pub const DefaultCollateralRatio: Permill = Permill::from_percent(10);
 }
+
+pub type HedgeToken = BasicCurrencyAdapter<Runtime, Balances, Amount, BlockNumber>;
 
 impl orml_currencies::Config for Runtime {
 	type Event = Event;
-	type MultiCurrency = Tokens;
-	type NativeCurrency = BasicCurrencyAdapter<Runtime, Balances, Amount, BlockNumber>;
-	type GetNativeCurrencyId = GetNativeCurrencyId;
+	type MultiCurrency = orml_tokens::Module<Runtime>;
+	type NativeCurrency = HedgeToken;
+	type GetNativeCurrencyId = GetHedgeTokenId;
 	type WeightInfo = ();
+}
+
+impl xtokens_messaging::Config for Runtime {
+	type Event = Event;
 }
 
 construct_runtime! {
@@ -881,8 +925,9 @@ construct_runtime! {
 		Spambot: cumulus_spambot::{Pallet, Call, Storage, Event<T>} = 99,
 
 		//orml_tokens
-		Currencies: orml_currencies::{Module, Call, Event<T>},
-		Tokens: orml_tokens::{Module, Storage, Event<T>, Config<T>},
+		//Currencies: orml_currencies::{Module, Call, Event<T>},
+		//Tokens: orml_tokens::{Module, Storage, Event<T>, Config<T>},
+		//Messaging: xtokens_messaging::{Module ,Storage, Call, Event},
 	}
 }
 
