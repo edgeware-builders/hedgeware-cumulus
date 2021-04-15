@@ -7,7 +7,7 @@ members = [
 	"client/service",
 	"pallets/parachain-system",
 	"pallets/xcm-handler",
-	"pallets/xtokens-messaging",
+	"pallets/xchain-messaging",
 	"primitives/core",
 	"primitives/parachain-inherent",
 	"rococo-parachains/",
