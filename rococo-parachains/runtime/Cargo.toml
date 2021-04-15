@@ -76,7 +76,7 @@ xcm-executor = { git = "https://github.com/paritytech/polkadot", default-feature
 orml-currencies = { version = "0.4.0", default-features = false }
 orml-tokens = { version = "0.4.0", default-features = false }
 orml-traits = { version = "0.4.0", default-features = false }
-xtokens-messaging = { path = "../../pallets/xtokens-messaging" }
+xchain-messaging = { path = "../../pallets/xchain-messaging" }
 
 [build-dependencies]
 substrate-wasm-builder = "3.0.0"
@@ -135,7 +135,7 @@ std = [
 	"orml-currencies/std",
 	"orml-tokens/std",
 	"orml-traits/std",
-	"xtokens-messaging/std",
+	"xchain-messaging/std",
 #	"fp-rpc/std",
 #	"pallet-ethereum/std",
 #	"evm-runtime/std",
